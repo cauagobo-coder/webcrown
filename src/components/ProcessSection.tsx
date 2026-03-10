@@ -37,11 +37,11 @@ interface SpotlightCardProps {
 
 // --- Dados ---
 const steps: StepProps[] = [
-    { id: 1, year: "Fase 01", title: "Briefing Inicial", description: "Entendimento profundo do seu negócio e objetivos.", icon: Search },
-    { id: 2, year: "Fase 02", title: "Estratégia Visual", description: "Definição de identidade, layout e referências.", icon: Target },
-    { id: 3, year: "Fase 03", title: "Desenvolvimento", description: "Construção com código limpo e tecnologias modernas.", icon: Code },
-    { id: 4, year: "Fase 04", title: "Refinamento", description: "Ajustes finos, animações e otimização total.", icon: Sparkles },
-    { id: 5, year: "Fase 05", title: "Entrega Final", description: "Seu site no ar, rápido e pronto para vender.", icon: CheckCircle2 },
+    { id: 1, year: "Fase 01", title: "Diagnóstico Estratégico", description: "Mapeamos seu negócio, público-alvo e concorrência para construir uma base sólida.", icon: Search },
+    { id: 2, year: "Fase 02", title: "Direção Criativa", description: "Definimos identidade visual, linguagem e posicionamento único para sua marca.", icon: Target },
+    { id: 3, year: "Fase 03", title: "Produção Visual", description: "Desenvolvemos todos os materiais gráficos e assets digitais com qualidade.", icon: Code },
+    { id: 4, year: "Fase 04", title: "Implementação", description: "Entregamos o projeto aplicado nas plataformas certas: redes, landing pages ou campanhas.", icon: Sparkles },
+    { id: 5, year: "Fase 05", title: "Evolução Contínua", description: "Monitoramos desempenho e aprimoramos sua presença digital com dados reais.", icon: CheckCircle2 },
 ];
 
 // --- Constantes de Dimensão (Desktop) ---
@@ -56,20 +56,20 @@ const Header = ({ compact = false }: { compact?: boolean }) => {
             <Container>
                 <div className="max-w-4xl flex flex-col items-center lg:items-start text-center lg:text-left mx-auto lg:mx-0">
                     <h1 className={`${compact ? 'text-4xl md:text-5xl' : 'text-5xl md:text-7xl lg:text-9xl'} font-black text-white leading-[0.9] tracking-tighter mb-6`}>
-                        Meu<br /><span className="text-yellow-400">Método</span>
+                        Nosso<br /><span className="text-brand-gold">Método</span>
                     </h1>
 
                     <p className="text-neutral-300 font-semibold text-lg md:text-2xl max-w-2xl leading-snug mb-6">
-                        Estratégia que pensa. Execução que impacta.
+                        Do briefing ao resultado. Estratégia que pensa. Execução que impacta.
                     </p>
 
-                    <div className="space-y-4 max-w-2xl border-l-0 lg:border-l-4 border-yellow-500 pl-0 lg:pl-8">
+                    <div className="space-y-4 max-w-2xl border-l-0 lg:border-l-4 border-brand-gold pl-0 lg:pl-8">
                         <p className="text-neutral-400 font-medium text-base md:text-lg leading-relaxed">
                             Nada aqui é por acaso.<br />
                             Cada projeto nasce de uma arquitetura clara, construída para transformar visão criativa em presença digital que entrega estética, performance e posicionamento.
                         </p>
                         <p className="text-neutral-500 text-sm md:text-base italic">
-                            Criar página não é sobre design. É sobre direção.
+                            Criar marca não é sobre design. É sobre direção.
                         </p>
                     </div>
                 </div>
@@ -78,7 +78,7 @@ const Header = ({ compact = false }: { compact?: boolean }) => {
             {!compact && (
                 <Container className="absolute bottom-12 left-0 right-0">
                     <div className="flex items-center gap-4 text-neutral-500 animate-bounce justify-center lg:justify-start">
-                        <ArrowDown className="w-6 h-6 text-yellow-400" />
+                        <ArrowDown className="w-6 h-6 text-brand-gold" />
                         <span className="text-sm uppercase tracking-widest font-bold">Conheça a lógica por trás da estética</span>
                     </div>
                 </Container>
@@ -101,9 +101,9 @@ const ProgressNode: React.FC<ProgressNodeProps> = ({
         { clamp: true }
     );
 
-    const ringColor = useTransform(activeState, [0, 1], ["#262626", "#facc15"]);
-    const coreColor = useTransform(activeState, [0, 1], ["#171717", "#facc15"]);
-    const shadow = useTransform(activeState, [0, 1], ["0px 0px 0px rgba(0,0,0,0)", "0px 0px 30px rgba(250,204,21,1)"]);
+    const ringColor = useTransform(activeState, [0, 1], ["#262626", "#F58A07"]);
+    const coreColor = useTransform(activeState, [0, 1], ["#171717", "#F58A07"]);
+    const shadow = useTransform(activeState, [0, 1], ["0px 0px 0px rgba(0,0,0,0)", "0px 0px 30px rgba(245,138,7,1)"]);
     const scale = useTransform(activeState, [0, 1], [0.8, 1.2]);
 
     return (
@@ -137,8 +137,8 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ step, scrollYProgress, th
         { clamp: true }
     );
 
-    const borderColor = useTransform(isPassed, [0, 1], ["rgba(255, 255, 255, 0.05)", "rgba(250, 204, 21, 1)"]);
-    const glowShadow = useTransform(isPassed, [0, 1], ["0 0 0 rgba(0,0,0,0)", "0 0 60px rgba(250, 204, 21, 0.3)"]);
+    const borderColor = useTransform(isPassed, [0, 1], ["rgba(255, 255, 255, 0.05)", "rgba(245, 138, 7, 1)"]);
+    const glowShadow = useTransform(isPassed, [0, 1], ["0 0 0 rgba(0,0,0,0)", "0 0 60px rgba(245, 138, 7, 0.3)"]);
 
     const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [7, -7]), { stiffness: 150, damping: 20 });
     const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-7, 7]), { stiffness: 150, damping: 20 });
@@ -169,14 +169,14 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ step, scrollYProgress, th
             className="group relative h-[350px] md:h-[400px] lg:h-[450px] shrink-0 rounded-[1.5rem] md:rounded-[2rem] bg-neutral-900/60 border p-5 md:p-7 lg:p-10 transition-colors"
         >
             <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2rem]"
-                style={{ background: `radial-gradient(400px circle at var(--x) var(--y), rgba(250, 204, 21, 0.08), transparent 80%)` }} />
+                style={{ background: `radial-gradient(400px circle at var(--x) var(--y), rgba(245, 138, 7, 0.08), transparent 80%)` }} />
 
             <div className="relative z-10 h-full flex flex-col">
                 <div className="flex justify-between items-start mb-6 md:mb-10">
-                    <div className="px-4 py-1.5 bg-yellow-400/10 border border-yellow-400/20 rounded-full">
-                        <span className="text-yellow-400 text-[10px] font-black uppercase tracking-widest">{step.year}</span>
+                    <div className="px-4 py-1.5 bg-brand-gold/10 border border-brand-gold/20 rounded-full">
+                        <span className="text-brand-gold text-[10px] font-black uppercase tracking-widest">{step.year}</span>
                     </div>
-                    <step.icon className="w-8 h-8 text-white/10 group-hover:text-yellow-400 group-hover:drop-shadow-[0_0_12px_rgba(250,204,21,0.4)] transition-all duration-500" />
+                    <step.icon className="w-8 h-8 text-white/10 group-hover:text-brand-gold group-hover:drop-shadow-[0_0_12px_rgba(245,138,7,0.4)] transition-all duration-500" />
                 </div>
 
                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-white mb-3 md:mb-4 tracking-tighter leading-none">{step.title}</h3>
@@ -188,7 +188,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ step, scrollYProgress, th
                             style={{
                                 width: useTransform(scrollYProgress, [threshold, threshold + 0.1], ["0%", "100%"]),
                             }}
-                            className="h-full bg-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.8)]"
+                            className="h-full bg-brand-gold shadow-[0_0_10px_rgba(245,138,7,0.8)]"
                         />
                     </div>
                 </div>
@@ -218,10 +218,10 @@ const MobileProcessCard = ({ step, index }: { step: StepProps; index: number }) 
 
                 <div className="relative z-10">
                     <div className="flex items-center justify-between mb-4">
-                        <div className="px-3 py-1 bg-yellow-400/10 border border-yellow-400/20 rounded-full">
-                            <span className="text-yellow-400 text-[10px] font-black uppercase tracking-widest">{step.year}</span>
+                        <div className="px-3 py-1 bg-brand-gold/10 border border-brand-gold/20 rounded-full">
+                            <span className="text-brand-gold text-[10px] font-black uppercase tracking-widest">{step.year}</span>
                         </div>
-                        <step.icon className="w-6 h-6 text-yellow-400/40" />
+                        <step.icon className="w-6 h-6 text-brand-gold/40" />
                     </div>
 
                     <h3 className="text-xl font-black text-white mb-2 tracking-tight">{step.title}</h3>
@@ -233,7 +233,7 @@ const MobileProcessCard = ({ step, index }: { step: StepProps; index: number }) 
                             whileInView={{ width: '100%' }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
-                            className="h-full bg-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.8)]"
+                            className="h-full bg-brand-gold shadow-[0_0_10px_rgba(245,138,7,0.8)]"
                         />
                     </div>
                 </div>
@@ -259,7 +259,7 @@ const ProcessSectionMobile = () => {
                         {steps.map((step, index) => (
                             <div key={step.id} className="relative">
                                 {/* Dot */}
-                                <div className="absolute -left-10 top-6 w-3 h-3 rounded-full bg-yellow-400 shadow-[0_0_12px_rgba(250,204,21,0.6)] border-2 border-[#050505]" />
+                                <div className="absolute -left-10 top-6 w-3 h-3 rounded-full bg-brand-gold shadow-[0_0_12px_rgba(245,138,7,0.6)] border-2 border-[#050505]" />
                                 <MobileProcessCard step={step} index={index} />
                             </div>
                         ))}
@@ -275,8 +275,8 @@ const ProcessSectionMobile = () => {
                     className="flex flex-col items-center text-center mt-12"
                 >
                     <div className="relative mb-8">
-                        <div className="absolute inset-0 bg-yellow-400/20 blur-3xl rounded-full" />
-                        <div className="relative w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(250,204,21,0.4)]">
+                        <div className="absolute inset-0 bg-brand-gold/20 blur-3xl rounded-full" />
+                        <div className="relative w-16 h-16 bg-brand-gold rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(245,138,7,0.4)]">
                             <Zap className="w-8 h-8 text-black fill-black" />
                         </div>
                     </div>
@@ -401,7 +401,7 @@ const ProcessSectionDesktop: React.FC = () => {
                             <div className="absolute inset-0 bg-white/5" />
                             <motion.div
                                 style={{ width: lineWidth }}
-                                className="h-full bg-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.9),0_0_5px_rgba(250,204,21,1)] origin-left"
+                                className="h-full bg-brand-gold shadow-[0_0_20px_rgba(245,138,7,0.9),0_0_5px_rgba(245,138,7,1)] origin-left"
                             />
                         </div>
 
@@ -446,8 +446,8 @@ const ProcessSectionDesktop: React.FC = () => {
 
                         <div style={{ width: ctaWidth }} className="shrink-0 flex flex-col items-center justify-center text-center relative z-20">
                             <div className="relative">
-                                <div className="absolute inset-0 bg-yellow-400/20 blur-3xl rounded-full" />
-                                <div className="relative w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(250,204,21,0.4)] mb-12">
+                                <div className="absolute inset-0 bg-brand-gold/20 blur-3xl rounded-full" />
+                                <div className="relative w-24 h-24 bg-brand-gold rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(245,138,7,0.4)] mb-12">
                                     <Zap className="w-12 h-12 text-black fill-black" />
                                 </div>
                             </div>

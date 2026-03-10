@@ -1,28 +1,95 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const Preloader: React.FC = () => {
+    const pathsRef = useRef<(SVGPathElement | null)[]>([]);
+    const percentageRef = useRef<HTMLSpanElement>(null);
+    
+    useEffect(() => {
+        // Obter tamanho real dos paths injetados 
+        const pathData = pathsRef.current.filter((p): p is SVGPathElement => p !== null).map(path => {
+            const length = path.getTotalLength();
+            path.style.strokeDasharray = `${length}`;
+            path.style.strokeDashoffset = `${length}`;
+            return { element: path, length: length };
+        });
+
+        // Lógica do contador numérico atrelada ao timestamp
+        const loadingDuration = 2800; // MS estipulados no CodePen
+        let startTimestamp: number | null = null;
+        let animationFrameId: number;
+
+        const animateLoading = (timestamp: number) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / loadingDuration, 1);
+            
+            // Curva "ease-out" para dar suavidade no final da corrida a 100%
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            
+            // Render Math %
+            if (percentageRef.current) {
+                const percent = Math.floor(easeOut * 100);
+                percentageRef.current.innerText = `${percent}%`;
+            }
+
+            // Sync Path Lines
+            pathData.forEach(data => {
+                data.element.style.strokeDashoffset = `${data.length * (1 - easeOut)}`;
+            });
+
+            if (progress < 1) {
+                animationFrameId = requestAnimationFrame(animateLoading);
+            }
+        };
+
+        animationFrameId = requestAnimationFrame(animateLoading);
+
+        return () => {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+        };
+    }, []);
+
     return (
-        <div className="loader-wrapper">
-            <svg className="ace-card-svg" viewBox="0 0 220 320">
-                {/* 1. Borda da Carta */}
-                <rect x="10" y="10" width="200" height="300" rx="15" ry="15" className="draw-path card-border" />
-
-                {/* 2. O Coração Central Grande */}
-                <path d="M110,230 C110,230 40,160 40,110 C40,70 75,60 92.5,80 C101.25,90 110,110 110,110 C110,110 118.75,90 127.5,80 C145,60 180,70 180,110 C180,160 110,230 110,230 Z" className="draw-path card-heart-big" />
-
-                {/* 3. Canto Superior Esquerdo */}
-                <g className="card-corner" transform="translate(25, 45)">
-                    <text x="0" y="0" fontFamily="'Playfair Display', serif" fontSize="32" fontWeight="bold" textAnchor="middle">A</text>
-                    <path d="M0,20 C0,20 -10,10 -10,2 C-10,-5 -2,-5 0,0 C2,-5 10,-5 10,2 C10,10 0,20 0,20 Z" transform="translate(0, 5)" />
-                </g>
-
-                {/* 4. Canto Inferior Direito */}
-                <g className="card-corner" transform="translate(195, 275) rotate(180)">
-                    <text x="0" y="0" fontFamily="'Playfair Display', serif" fontSize="32" fontWeight="bold" textAnchor="middle">A</text>
-                    <path d="M0,20 C0,20 -10,10 -10,2 C-10,-5 -2,-5 0,0 C2,-5 10,-5 10,2 C10,10 0,20 0,20 Z" transform="translate(0, 5)" />
-                </g>
+        <div className="loader-wrapper neon-preloader-bg flex flex-col items-center justify-center">
+            
+            {/* Crown Logo SVG vinda do user snippet, otimizada pro React */}
+            <svg id="neon-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1008 698.04" className="w-full max-w-[250px] h-auto drop-shadow-neon origin-center">
+                <path 
+                    ref={el => pathsRef.current[0] = el}
+                    className="neon-path" 
+                    d="M.01,99.52c-.12-.57.59-.91.97-.47l304.76,359.85c.4.47,1.17.36,1.42-.22,13.22-30.3,51.05-117.18,113.53-260.69,23.66-54.33,40.75-93.9,51.31-118.66,1.36-3.18,2.73-6.36,4.13-9.55,11.96-27.18,21.74-50.22,29.35-69.17.24-.57.95-.79,1.44-.42.26.18.45.45.61.83,15.71,37.06,24.19,56.98,25.44,59.75,7.23,15.99,13.78,31.19,19.63,45.6,7.59,18.66,17.87,39.77,26.5,60.6,2.27,5.47,10.2,23.74,23.76,54.75,44.88,102.6,73.56,168.33,86.05,197.21,3.97,9.19,10.08,22.45,18.28,39.75.26.55.99.63,1.38.18L1007.32,101.54c.12-.14.34-.18.49-.08.16.08.24.28.16.45l-191.02,468.89c-.3.69-.97,1.15-1.72,1.15h-189.91c-1.36,0-2.63-.77-3.24-1.98l-114.85-224.42c-.36-.69-1.32-.69-1.68,0l-115.68,223.73c-.87,1.68-2.63,2.75-4.53,2.75h-188.39c-.93,0-1.76-.55-2.11-1.4-80.82-195.07-123.39-297.75-127.68-308.03-6.94-16.58-12.61-30.4-17.02-41.43-9.72-24.35-15.38-38.16-16.96-41.43-2.15-4.45-7.15-16.42-15.02-35.95-5.61-13.97-10.69-25.95-15.22-35.97-1.44-3.22-2.43-5.99-2.93-8.3Z"
+                />
+                <path 
+                    ref={el => pathsRef.current[1] = el}
+                    className="neon-path" 
+                    d="M176.74,61.83l.57.36c.06.02.1.06.12.1l171.59,236.46c.73.99.87,2.29.38,3.44l-48.4,111.63c-.42.95-1.7,1.15-2.37.34-37.63-44.61-67.08-79.31-88.33-104.14-3.4-3.97-4.64-7.57-5.24-13.24-5.49-52.55-9.78-90.68-12.85-114.38-5.71-44.05-11.13-84.06-16.25-120.05-.06-.43.4-.73.77-.51Z"
+                />
+                <path 
+                    ref={el => pathsRef.current[2] = el}
+                    className="neon-path" 
+                    d="M835.51,62.52c.38-.22.83.08.77.51-5.02,35.87-10.3,75.76-15.87,119.67-2.98,23.62-7.15,61.62-12.49,114.02-.57,5.65-1.82,9.25-5.18,13.22-21.13,24.78-50.38,59.47-87.75,104.02-.67.79-1.94.61-2.37-.34l-48.52-111.11c-.49-1.13-.36-2.43.36-3.44l170.37-236.1s.08-.08.12-.1l.57-.36Z"
+                />
+                <path 
+                    ref={el => pathsRef.current[3] = el}
+                    className="neon-path" 
+                    d="M245.84,697.47l-29.67-68.23c-.28-.65.18-1.36.89-1.36h577.85c.71,0,1.17.71.89,1.36l-29.59,68.23c-.16.34-.51.57-.89.57H246.73c-.38,0-.73-.24-.89-.57Z"
+                />
             </svg>
-            <div className="loading-text">Embaralhando</div>
+
+            {/* Contador UI */}
+            <div className="mt-10 flex flex-col items-center gap-2">
+                <span 
+                    ref={percentageRef} 
+                    className="text-4xl md:text-[2.5rem] font-extrabold text-white" 
+                    style={{ 
+                        textShadow: '0 0 15px rgba(255,255,255,0.5), 0 0 30px #eab308',
+                        fontVariantNumeric: 'tabular-nums' 
+                    }}
+                >
+                    0%
+                </span>
+            </div>
         </div>
     );
 };

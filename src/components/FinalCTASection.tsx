@@ -20,19 +20,19 @@ const FinalCTASection: React.FC = () => {
                     viewport={{ once: true, margin: '200px' }}
                     transition={{ duration: 0.4 }}
                 >
-                    <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
-                        Quer um site <span className="text-yellow-500">nesse nível?</span>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold mb-6 tracking-tight text-white">
+                        Pronto para transformar sua marca em uma <span className="text-brand-gold">presença digital de impacto?</span>
                     </h2>
 
-                    <p className="text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto mb-12">
-                        Vamos resolver isso hoje. Uma conversa rápida e começamos.
+                    <p className="text-lg md:text-xl max-w-2xl mx-auto mb-12 font-body text-brand-gray/80">
+                        Se você quer design profissional, estratégia visual e conteúdo que converte, a WebCrown é o parceiro certo para o seu negócio.
                     </p>
 
                     <GoldButton
                         onClick={handleContactClick}
                         className="mx-auto"
                     >
-                        Iniciar Conversa
+                        Solicitar Orçamento Gratuito
                     </GoldButton>
                 </motion.div>
             </div>

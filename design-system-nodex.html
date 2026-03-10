@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WEB CROWN | Design System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  
+  <style>
+    /* Design Tokens — WEB CROWN v2 */
+    :root {
+      /* ── Paleta Principal ── */
+      --color-gold:       #C4A93C;  /* Dourado — Accent primário    */
+      --color-light-gray: #DCDCDC;  /* Cinza Claro — Texto / Surface */
+      --color-black:      #0A0A0A;  /* Preto profundo — Background   */
+      --color-sky:        #C8DCF0;  /* Azul Claro — Accent secundário*/
+
+      /* ── Backgrounds ── */
+      --bg-base:       var(--color-black);
+      --bg-surface-1:  #111111;
+      --bg-surface-2:  #1A1A1A;
+      --bg-surface-3:  #242424;
+
+      /* ── Textos ── */
+      --text-main:     #FFFFFF;
+      --text-secondary:var(--color-light-gray);
+      --text-muted:    #888888;
+
+      /* ── Accents ── */
+      --accent-gold:   var(--color-gold);
+      --accent-sky:    var(--color-sky);
+
+      /* ── Bordas ── */
+      --border-color:  rgba(255, 255, 255, 0.08);
+
+      /* ── Tipografia ── */
+      --font-display: 'ClashDisplay', 'Inter', sans-serif;
+      --font-body:    'Inter', sans-serif;
+
+      /* ── Escala Tipográfica ── */
+      --type-h1:   96px;
+      --type-h2:   48px;
+      --type-h3:   34px;
+      --type-h4:   20px;
+      --type-sub1: 16px;
+      --type-sub2: 16px;
+      --type-body: 16px;
+
+      /* ── Radius ── */
+      --radius-sm:   4px;
+      --radius-base: 8px;
+      --radius-lg:   16px;
+      --radius-xl:   24px;
+      --radius-full: 9999px;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-base);
+      color: var(--text-muted);
+      scroll-behavior: smooth;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    /* Clash Display aplicado globalmente nos headings */
+    .clash { font-family: 'ClashDisplay', 'Inter', sans-serif; }
+    .inter { font-family: 'Inter', sans-serif; }
+
+    /* Scrollbar minimalista */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+
+    /* Glass Effect da WEB CROWN */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 10px 30px -10px rgba(0,0,0,0.5);
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['ClashDisplay', 'Inter', 'sans-serif'],
+            body:    ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              gold:  '#C4A93C',
+              gray:  '#DCDCDC',
+              black: '#0A0A0A',
+              sky:   '#C8DCF0',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="antialiased overflow-x-hidden min-h-screen relative flex">
+  
+  <!-- Sidebar Navigation -->
+  <aside class="w-64 h-screen sticky top-0 border-r border-white/[0.08] bg-[#0A0A0A]/90 backdrop-blur-md flex flex-col p-6 z-50">
+    <div class="mb-12">
+      <span class="text-white clash font-semibold text-xl tracking-[0.15em] uppercase">WEB CROWN</span>
+      <p class="text-[10px] text-[#C4A93C] mt-2 tracking-widest uppercase font-bold inter">Design System v2</p>
+    </div>
+
+    <nav class="flex flex-col gap-4 text-sm inter tracking-wide">
+      <a href="#cores" class="text-[#888] hover:text-white transition-colors">01 — Cores</a>
+      <a href="#tipografia" class="text-[#888] hover:text-white transition-colors">02 — Tipografia</a>
+      <a href="#espacamentos" class="text-[#888] hover:text-white transition-colors">03 — Espaçamentos</a>
+      <a href="#componentes" class="text-[#888] hover:text-white transition-colors">04 — Componentes</a>
+      <a href="#tokens" class="text-[#888] hover:text-white transition-colors mt-8 pt-8 border-t border-white/10">Tokens Completos</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-5xl mx-auto p-12 lg:p-24 space-y-32">
+
+    <!-- Hero -->
+    <header class="space-y-6">
+      <div class="inline-flex bg-white/5 border border-white/[0.08] rounded-full px-4 py-1.5 gap-3 items-center shadow-[0_0_20px_rgba(196,169,60,0.25)]">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C4A93C] opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-[#C4A93C]"></span>
+        </span>
+        <span class="text-[10px] text-[#DCDCDC] uppercase font-bold tracking-[0.2em] inter">Versão 2.0</span>
+      </div>
+
+      <h1 class="clash font-semibold text-white tracking-tight" style="font-size: 96px; line-height: 1;">
+        WEB <span class="text-[#C4A93C]">CROWN.</span>
+      </h1>
+      <p class="inter text-lg font-light text-[#888] max-w-2xl leading-relaxed">
+        Documentação completa de tokens, cores, tipografia e componentes da interface WEB CROWN.
+      </p>
+    </header>
+
+    <!-- 01 Colors -->
+    <section id="cores" class="space-y-12 shrink-0">
+      <div class="space-y-2 border-b border-white/[0.08] pb-6 mb-8">
+        <span class="text-xs text-[#C4A93C] tracking-[0.4em] font-mono inter">01</span>
+        <h2 class="text-3xl text-white clash font-semibold">Cores &amp; Paleta</h2>
+      </div>
+
+      <!-- Primary Palette -->
+      <div>
+        <p class="text-xs text-[#888] uppercase tracking-widest inter mb-6">Primárias</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+          <div class="space-y-4">
+            <div class="h-36 rounded-2xl border border-white/10 bg-[#C4A93C] shadow-[0_0_30px_rgba(196,169,60,0.4)]"></div>
+            <div>
+              <p class="text-white font-semibold text-sm clash">Gold</p>
+              <p class="text-xs text-[#888] font-mono inter mt-0.5">#C4A93C</p>
+              <p class="text-xs text-[#888] inter">Accent Principal</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="h-36 rounded-2xl border border-white/10 bg-[#DCDCDC]"></div>
+            <div>
+              <p class="text-white font-semibold text-sm clash">Light Gray</p>
+              <p class="text-xs text-[#888] font-mono inter mt-0.5">#DCDCDC</p>
+              <p class="text-xs text-[#888] inter">Texto / Surface</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="h-36 rounded-2xl border border-white/20 bg-[#0A0A0A]"></div>
+            <div>
+              <p class="text-white font-semibold text-sm clash">Black</p>
+              <p class="text-xs text-[#888] font-mono inter mt-0.5">#0A0A0A</p>
+              <p class="text-xs text-[#888] inter">Background Base</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="h-36 rounded-2xl border border-white/10 bg-[#C8DCF0] shadow-[0_0_20px_rgba(200,220,240,0.2)]"></div>
+            <div>
+              <p class="text-white font-semibold text-sm clash">Sky Blue</p>
+              <p class="text-xs text-[#888] font-mono inter mt-0.5">#C8DCF0</p>
+              <p class="text-xs text-[#888] inter">Accent Secundário</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Surfaces -->
+      <div>
+        <p class="text-xs text-[#888] uppercase tracking-widest inter mb-6">Superfícies (Dark Scale)</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="space-y-3">
+            <div class="h-20 rounded-xl border border-white/20 bg-[#0A0A0A]"></div>
+            <div>
+              <p class="text-white text-sm clash">Surface / Background</p>
+              <p class="text-xs text-[#888] font-mono inter mt-0.5">#0A0A0A</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="h-20 rounded-xl border border-white/10 bg-[#111111]"></div>
+            <div>
+              <p class="text-white text-sm clash">Surface 1</p>
+              <p class="text-xs text-[#888] font-mono inter mt-0.5">#111111</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="h-20 rounded-xl border border-white/10 bg-[#1A1A1A]"></div>
+            <div>
+              <p class="text-white text-sm clash">Surface 2</p>
+              <p class="text-xs text-[#888] font-mono inter mt-0.5">#1A1A1A</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="h-20 rounded-xl border border-white/10 bg-[#242424]"></div>
+            <div>
+              <p class="text-white text-sm clash">Surface 3</p>
+              <p class="text-xs text-[#888] font-mono inter mt-0.5">#242424</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 Typography -->
+    <section id="tipografia" class="space-y-12">
+      <div class="space-y-2 border-b border-white/[0.08] pb-6 mb-8">
+        <span class="text-xs text-[#C4A93C] tracking-[0.4em] font-mono inter">02</span>
+        <h2 class="text-3xl text-white clash font-semibold">Tipografia</h2>
+      </div>
+
+      <!-- Fontes Overview -->
+      <div class="grid grid-cols-2 gap-6 mb-4">
+        <div class="glass-panel rounded-2xl p-6">
+          <p class="text-[#C4A93C] text-xs uppercase tracking-widest inter mb-3">Display &amp; Headings</p>
+          <p class="text-white clash font-semibold text-3xl">Clash Display</p>
+          <p class="text-[#888] inter text-sm mt-2">Pesos: Light 300 · Regular 400 · Medium 500 · Semibold 600 · Bold 700</p>
+        </div>
+        <div class="glass-panel rounded-2xl p-6">
+          <p class="text-[#C8DCF0] text-xs uppercase tracking-widest inter mb-3">Body &amp; UI</p>
+          <p class="text-white inter font-normal text-3xl">Inter</p>
+          <p class="text-[#888] inter text-sm mt-2">Pesos: Regular 400 · Medium 500 · Semibold 600 · Bold 700</p>
+        </div>
+      </div>
+
+      <!-- Tabela de escala tipográfica -->
+      <div class="glass-panel rounded-2xl overflow-hidden mt-6">
+        <div class="grid grid-cols-[200px_1fr_120px] gap-4 px-8 py-4 border-b border-white/[0.08] bg-white/[0.02]">
+          <p class="text-xs text-[#888] uppercase tracking-widest inter">Token</p>
+          <p class="text-xs text-[#888] uppercase tracking-widest inter">Exemplo</p>
+          <p class="text-xs text-[#888] uppercase tracking-widest inter text-right">Especificação</p>
+        </div>
+
+        <!-- H1 -->
+        <div class="grid grid-cols-[200px_1fr_120px] gap-4 items-center px-8 py-8 border-b border-white/[0.05]">
+          <div>
+            <p class="text-[#C4A93C] text-xs font-mono inter mb-1">H1 / Hero</p>
+            <p class="text-[#888] text-xs inter">Clash Display</p>
+          </div>
+          <p class="clash font-semibold text-white leading-none" style="font-size:clamp(36px,5.5vw,96px);">The Bold Crown</p>
+          <div class="text-right">
+            <p class="text-white text-xs inter font-medium">96px</p>
+            <p class="text-[#888] text-xs inter">Semibold 600</p>
+          </div>
+        </div>
+
+        <!-- H2 -->
+        <div class="grid grid-cols-[200px_1fr_120px] gap-4 items-center px-8 py-7 border-b border-white/[0.05]">
+          <div>
+            <p class="text-[#C4A93C] text-xs font-mono inter mb-1">H2 / Seção</p>
+            <p class="text-[#888] text-xs inter">Clash Display</p>
+          </div>
+          <p class="clash font-medium text-white leading-none" style="font-size:clamp(26px,4vw,48px);">Section Heading</p>
+          <div class="text-right">
+            <p class="text-white text-xs inter font-medium">48px</p>
+            <p class="text-[#888] text-xs inter">Medium 500</p>
+          </div>
+        </div>
+
+        <!-- H3 -->
+        <div class="grid grid-cols-[200px_1fr_120px] gap-4 items-center px-8 py-6 border-b border-white/[0.05]">
+          <div>
+            <p class="text-[#C4A93C] text-xs font-mono inter mb-1">H3 / Bloco</p>
+            <p class="text-[#888] text-xs inter">Clash Display</p>
+          </div>
+          <p class="clash font-medium text-white leading-none" style="font-size:34px;">Card &amp; Block Title</p>
+          <div class="text-right">
+            <p class="text-white text-xs inter font-medium">34px</p>
+            <p class="text-[#888] text-xs inter">Medium 500</p>
+          </div>
+        </div>
+
+        <!-- H4 -->
+        <div class="grid grid-cols-[200px_1fr_120px] gap-4 items-center px-8 py-5 border-b border-white/[0.05]">
+          <div>
+            <p class="text-[#C4A93C] text-xs font-mono inter mb-1">H4 / Label</p>
+            <p class="text-[#888] text-xs inter">Clash Display</p>
+          </div>
+          <p class="clash font-medium text-white leading-none" style="font-size:20px;">Component Label Title</p>
+          <div class="text-right">
+            <p class="text-white text-xs inter font-medium">20px</p>
+            <p class="text-[#888] text-xs inter">Medium 500</p>
+          </div>
+        </div>
+
+        <!-- Subtitle 1 -->
+        <div class="grid grid-cols-[200px_1fr_120px] gap-4 items-center px-8 py-5 border-b border-white/[0.05]">
+          <div>
+            <p class="text-[#C8DCF0] text-xs font-mono inter mb-1">Subtítulo 1</p>
+            <p class="text-[#888] text-xs inter">Clash Display</p>
+          </div>
+          <p class="clash font-medium text-[#DCDCDC] leading-none" style="font-size:16px;">Subtítulo de destaque</p>
+          <div class="text-right">
+            <p class="text-white text-xs inter font-medium">16px</p>
+            <p class="text-[#888] text-xs inter">Medium 500</p>
+          </div>
+        </div>
+
+        <!-- Subtitle 2 -->
+        <div class="grid grid-cols-[200px_1fr_120px] gap-4 items-center px-8 py-5 border-b border-white/[0.05]">
+          <div>
+            <p class="text-[#C8DCF0] text-xs font-mono inter mb-1">Subtítulo 2</p>
+            <p class="text-[#888] text-xs inter">Clash Display</p>
+          </div>
+          <p class="clash font-normal text-[#DCDCDC] leading-none" style="font-size:16px;">Subtítulo secundário regular</p>
+          <div class="text-right">
+            <p class="text-white text-xs inter font-medium">16px</p>
+            <p class="text-[#888] text-xs inter">Regular 400</p>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="grid grid-cols-[200px_1fr_120px] gap-4 items-start px-8 py-6">
+          <div class="mt-0.5">
+            <p class="text-[#888] text-xs font-mono inter mb-1">Body</p>
+            <p class="text-[#888] text-xs inter">Inter</p>
+          </div>
+          <p class="inter font-normal text-[#DCDCDC] leading-relaxed" style="font-size:16px;">WEB CROWN deploys autonomous solutions that execute complex workflows, optimize decisions, and scale across your digital infrastructure automatically.</p>
+          <div class="text-right mt-0.5">
+            <p class="text-white text-xs inter font-medium">16px</p>
+            <p class="text-[#888] text-xs inter">Regular 400</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 Spacing & Radius -->
+    <section id="espacamentos" class="space-y-12">
+      <div class="space-y-2 border-b border-white/[0.08] pb-6 mb-8">
+        <span class="text-xs text-[#C4A93C] tracking-[0.4em] font-mono inter">03</span>
+        <h2 class="text-3xl text-white clash font-semibold">Borders &amp; Radius</h2>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="glass-panel h-32 rounded-lg flex items-center justify-center flex-col gap-2">
+          <div class="w-16 h-16 bg-white/5 rounded-md border border-white/10"></div>
+          <span class="text-xs text-slate-400">rounded-md (6px)</span>
+        </div>
+        
+        <div class="glass-panel h-32 rounded-xl flex items-center justify-center flex-col gap-2">
+          <div class="w-16 h-16 bg-white/5 rounded-xl border border-white/10"></div>
+          <span class="text-xs text-slate-400">rounded-xl (12px)</span>
+        </div>
+
+        <div class="glass-panel h-32 rounded-2xl flex items-center justify-center flex-col gap-2">
+          <div class="w-16 h-16 bg-white/5 rounded-2xl border border-white/10"></div>
+          <span class="text-xs text-slate-400">rounded-2xl (16px)</span>
+        </div>
+
+        <div class="glass-panel h-32 rounded-[2rem] flex items-center justify-center flex-col gap-2">
+          <div class="w-16 h-16 bg-white/5 rounded-full border border-white/10"></div>
+          <span class="text-xs text-slate-400">rounded-full</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 Components -->
+    <section id="componentes" class="space-y-12">
+      <div class="space-y-2 border-b border-white/[0.08] pb-6 mb-8">
+        <span class="text-xs text-[#C4A93C] tracking-[0.4em] font-mono inter">04</span>
+        <h2 class="text-3xl text-white clash font-semibold">Componentes UI</h2>
+      </div>
+
+      <div class="space-y-12">
+        
+        <!-- Buttons -->
+        <div>
+          <h3 class="text-lg text-white mb-6">Buttons & CTA</h3>
+          <div class="flex flex-wrap gap-8 items-center glass-panel rounded-2xl p-8">
+            
+            <!-- Primary CTA -->
+            <button class="relative group inline-flex items-center justify-center">
+              <div class="absolute -inset-2 bg-gradient-to-r from-blue-500/40 via-cyan-400/30 to-blue-500/40 opacity-40 blur-xl rounded-full transition-opacity group-hover:opacity-100"></div>
+              <div class="relative bg-gradient-to-b from-white/20 to-white/5 backdrop-blur-xl px-8 py-3 rounded-full border border-white/20 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.4)]">
+                <span class="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 tracking-widest drop-shadow">
+                  DEPLOY AGENTS
+                </span>
+              </div>
+            </button>
+
+            <!-- Secondary -->
+            <button class="px-6 py-2.5 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium uppercase tracking-wider hover:bg-white/10 transition-all">
+              Contact Sales
+            </button>
+
+            <!-- Console Action -->
+            <button class="group flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-b from-indigo-500/20 to-indigo-500/5 border border-indigo-500/30 hover:border-indigo-500/50 shadow-md transition-all">
+              <iconify-icon icon="lucide:terminal" width="14" class="text-indigo-400"></iconify-icon>
+              <span class="text-sm font-semibold text-indigo-400">Action Btn</span>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Badges & Indicators -->
+        <div>
+          <h3 class="text-lg text-white mb-6">Badges & Tags</h3>
+          <div class="flex flex-wrap gap-6 items-center glass-panel rounded-2xl p-8">
+            
+            <!-- Live Indicator -->
+            <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/30 border border-emerald-500/20 shadow-[inset_0_0_5px_rgba(16,185,129,0.1)]">
+              <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
+              <span class="text-emerald-400 text-[10px] font-bold tracking-wider">RUNNING</span>
+            </div>
+
+            <!-- Version Tag -->
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.05] border border-white/5 shadow-inner backdrop-blur">
+              <iconify-icon icon="lucide:cpu" width="14" class="text-indigo-400"></iconify-icon>
+              <span class="text-xs font-mono text-slate-300">24% Load</span>
+            </div>
+
+            <!-- Integration Pill -->
+            <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/5 text-xs text-slate-300 flex items-center gap-2 shadow-sm hover:border-white/20 transition-colors cursor-pointer">
+              <iconify-icon icon="simple-icons:snowflake" width="14" class="text-blue-300"></iconify-icon> Snowflake
+            </span>
+            
+          </div>
+        </div>
+
+        <!-- Cards -->
+        <div>
+          <h3 class="text-lg text-white mb-6">Glass Cards (Premium UI)</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- Dashboard Card -->
+            <div class="relative rounded-[2rem] border border-white/10 bg-gradient-to-b from-slate-800 to-slate-900 shadow-[0_20px_40px_-12px_rgba(0,0,0,0.6)] overflow-hidden">
+              <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-50"></div>
+              <div class="h-48 m-2 rounded-[1.5rem] bg-[#0B1120] relative overflow-hidden flex flex-col p-5 border-b border-white/5 shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)]">
+                <!-- Inner Dashboard elements... -->
+                <div class="absolute -top-10 -left-10 w-40 h-40 bg-indigo-500/20 rounded-full blur-[50px] pointer-events-none"></div>
+                <div class="z-10 bg-white/[0.05] p-4 rounded-xl border border-white/10 flex items-center gap-4 mt-auto">
+                  <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#00A1E0] to-[#005f85] flex items-center justify-center shadow-lg text-white">
+                    <iconify-icon icon="solar:cloud-bold" class="text-xl"></iconify-icon>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-sm font-bold text-slate-200">Salesforce CRM</span>
+                    <span class="text-xs text-slate-400 font-medium">Connected</span>
+                  </div>
+                  <div class="ml-auto w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse"></div>
+                </div>
+              </div>
+              <div class="p-6 pt-2">
+                <h3 class="text-lg font-semibold text-white mb-1 shadow-black drop-shadow-md">System Integration</h3>
+                <p class="text-sm text-slate-400 leading-relaxed font-medium">Secure connections with zero-trust protocols.</p>
+              </div>
+            </div>
+
+            <!-- Terminal Card -->
+            <div class="flex flex-col bg-[#0B1120]/90 border-white/10 border ring-white/5 ring-1 rounded-xl shadow-[0_30px_60px_-10px_rgba(0,0,0,0.8)] backdrop-blur-xl overflow-hidden self-start w-full">
+              <div class="flex items-center justify-between px-4 py-3 bg-gradient-to-b from-white/10 to-transparent border-b border-white/5">
+                <div class="flex items-center gap-2 text-xs font-mono font-semibold text-slate-400">
+                  <iconify-icon icon="lucide:terminal-square" width="14" class="text-indigo-400"></iconify-icon> web-crown-cli
+                </div>
+                <div class="flex gap-2">
+                  <div class="w-2.5 h-2.5 rounded-full bg-white/20 shadow-inner"></div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-white/20 shadow-inner"></div>
+                </div>
+              </div>
+              <div class="text-xs leading-relaxed text-slate-300 font-mono bg-black/60 p-5 shadow-inner">
+                <div><span class="text-emerald-400 font-semibold">➜</span> <span class="text-indigo-400 font-semibold">~</span> root</div>
+                <div class="text-slate-400 mt-2">Retrieving telemetry... <br>
+                  <span class="text-emerald-500">[INFO]</span> Executed flawlessly.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TOKENS / CONFIG COMPLETA -->
+    <section id="tokens" class="space-y-6 pt-12 border-t border-white/[0.08]">
+      <h2 class="text-2xl text-white clash font-semibold">CSS Tokens &amp; Config</h2>
+      <p class="text-sm text-[#888] inter">Copie estes tokens para o seu <code>style.css</code> ou na config do Tailwind <code>tailwind.config.js</code>.</p>
+      
+      <div class="glass-panel p-6 rounded-2xl overflow-hidden">
+        <pre class="text-xs font-mono text-[#C8DCF0] overflow-x-auto whitespace-pre-wrap leading-relaxed"><code class="language-css">/* ── WEB CROWN Design Tokens v2 ── */
+:root {
+  /* Paleta */
+  --color-gold:        #C4A93C;
+  --color-light-gray:  #DCDCDC;
+  --color-black:       #0A0A0A;
+  --color-sky:         #C8DCF0;
+
+  /* Backgrounds */
+  --bg-base:           #0A0A0A;
+  --bg-surface-1:      #111111;
+  --bg-surface-2:      #1A1A1A;
+  --bg-surface-3:      #242424;
+
+  /* Textos */
+  --text-main:         #FFFFFF;
+  --text-secondary:    #DCDCDC;
+  --text-muted:        #888888;
+
+  /* Accents */
+  --accent-gold:       #C4A93C;
+  --accent-sky:        #C8DCF0;
+
+  /* Bordas */
+  --border-color:      rgba(255, 255, 255, 0.08);
+
+  /* Fontes */
+  --font-display:      'ClashDisplay', 'Inter', sans-serif;
+  --font-body:         'Inter', sans-serif;
+
+  /* Escala Tipográfica */
+  --type-h1:   96px;  /* Clash Display Semibold  */
+  --type-h2:   48px;  /* Clash Display Medium     */
+  --type-h3:   34px;  /* Clash Display Medium     */
+  --type-h4:   20px;  /* Clash Display Medium     */
+  --type-sub1: 16px;  /* Clash Display Medium     */
+  --type-sub2: 16px;  /* Clash Display Regular    */
+  --type-body: 16px;  /* Inter Regular            */
+
+  /* Radius */
+  --radius-sm:   4px;
+  --radius-base: 8px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-full: 9999px;
+}
+
+/* Google / Fontshare Imports */
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Tailwind Custom Extended Config */
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['ClashDisplay', 'Inter', 'sans-serif'],
+        body:    ['Inter', 'sans-serif'],
+      },
+      colors: {
+        brand: {
+          gold:  '#C4A93C',
+          gray:  '#DCDCDC',
+          black: '#0A0A0A',
+          sky:   '#C8DCF0',
+        }
+      }
+    }
+  }
+}</code></pre>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

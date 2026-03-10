@@ -112,7 +112,7 @@ export const CustomScrollbar = () => {
             <div
                 ref={thumbRef}
                 onPointerDown={handlePointerDown}
-                className={`w-full bg-yellow-500 rounded-full cursor-grab active:cursor-grabbing pointer-events-auto transition-colors duration-300 hover:bg-yellow-400 ${isDragging ? 'bg-yellow-400' : ''}`}
+                className={`w-full bg-brand-gold rounded-full cursor-grab active:cursor-grabbing pointer-events-auto transition-colors duration-300 hover:bg-brand-gold/80 ${isDragging ? 'bg-brand-gold/80' : ''}`}
                 style={{
                     willChange: 'transform, height',
                     touchAction: 'none'

@@ -4,9 +4,9 @@ import GlassCard from './GlassCard';
 import Container from './Container';
 
 const highlights = [
-    { icon: Clock, label: '19 anos', description: 'Jovem e atualizado com as tendências' },
-    { icon: Award, label: '3 anos na área', description: 'Experiência sólida em projetos reais' },
-    { icon: Target, label: 'Foco 100% em sites', description: 'Especialista, não generalista' },
+    { icon: Award, label: '7+ anos combinados', description: 'Experiência sólida em design e estratégia digital' },
+    { icon: Target, label: '50+ projetos entregues', description: 'Marcas transformadas em referência no digital' },
+    { icon: Clock, label: 'Design + Estratégia', description: 'Não entregamos artes. Entregamos resultado' },
 ];
 
 const AboutSection = () => {
@@ -14,8 +14,8 @@ const AboutSection = () => {
         <section id="sobre" className="py-32 relative bg-black overflow-hidden">
             {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-yellow-500/5 rounded-full blur-[100px]" />
-                <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-yellow-500/5 rounded-full blur-[100px]" />
+                <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-brand-gold/5 rounded-full blur-[100px]" />
+                <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-brand-gold/5 rounded-full blur-[100px]" />
             </div>
 
             <Container className="relative z-10">
@@ -29,28 +29,25 @@ const AboutSection = () => {
                         transition={{ duration: 0.4 }}
                         className="lg:col-span-6 text-center lg:text-left mx-auto lg:mx-0 w-full max-w-2xl lg:self-center"
                     >
-                        <span className="text-yellow-500 text-sm font-bold tracking-widest uppercase mb-4 block">
-                            <Star className="w-4 h-4 inline-block mr-2 -mt-1 text-yellow-500 fill-yellow-500" />
-                            Sobre mim
+                        <span className="text-sm font-bold tracking-widest uppercase mb-4 block font-body text-brand-gold">
+                            <Star className="w-4 h-4 inline-block mr-2 -mt-1 text-brand-gold fill-brand-gold" />
+                            Sobre Nós
                         </span>
 
-                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-8 leading-tight">
-                            Não faço tudo.{' '}
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold mb-8 leading-tight text-white">
+                            Quem está por trás{' '}
                             <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600">
-                                Faço sites muito bem.
+                            <span className="text-brand-gold">
+                                da WebCrown
                             </span>
                         </h2>
 
-                        <div className="space-y-6 text-zinc-400 text-lg leading-relaxed max-w-lg mx-auto lg:mx-0">
+                        <div className="space-y-6 text-lg leading-relaxed max-w-lg mx-auto lg:mx-0 font-body text-brand-gray/80">
                             <p>
-                                Meu nome é Cauã. Aos 19 anos, já acumulei 3 anos de experiência criando
-                                websites que realmente funcionam. Meu foco é exclusivo: landing pages,
-                                sites institucionais e portfólios que convertem visitantes em clientes.
+                                A WebCrown é uma agência de design e marketing digital fundada por Felix e Cauã, dois especialistas em criação visual e estratégia digital com mais de 7 anos de experiência combinada no mercado.
                             </p>
                             <p>
-                                Enquanto outros tentam fazer de tudo, eu escolhi dominar uma única coisa.
-                                Cada projeto recebe atenção total, desde o design até a performance final.
+                                Nossa missão é simples: transformar empresas comuns em marcas digitais reconhecidas, com design profissional, posicionamento estratégico e conteúdo que gera resultado.
                             </p>
                         </div>
                     </motion.div>
@@ -59,8 +56,8 @@ const AboutSection = () => {
                     <div className="lg:col-span-5 lg:col-start-8 space-y-4 flex flex-col items-center w-full lg:block lg:self-center">
                         {highlights.map((item, index) => (
                             <GlassCard key={item.label} delay={index * 0.15} className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 p-5 md:p-6 text-center md:text-left w-full max-w-[260px] md:max-w-none lg:mx-0">
-                                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
-                                    <item.icon className="w-5 h-5 md:w-6 md:h-6 text-yellow-500" />
+                                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-brand-gold/10 border border-brand-gold/20 flex items-center justify-center">
+                                    <item.icon className="w-5 h-5 md:w-6 md:h-6 text-brand-gold" />
                                 </div>
                                 <div>
                                     <h3 className="text-lg md:text-xl font-bold text-white mb-1">{item.label}</h3>

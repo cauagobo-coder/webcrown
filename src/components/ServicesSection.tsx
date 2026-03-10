@@ -1,7 +1,6 @@
-// @ts-ignore
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Zap, Globe, Layers, ArrowRight } from 'lucide-react';
+import { Share2, Zap, Palette, Video, ArrowRight } from 'lucide-react';
 import { CyberButton } from './GoldButton';
 // Three.js is loaded dynamically (only on desktop) to save ~600KB on mobile bundle
 import gsap from 'gsap';
@@ -14,33 +13,43 @@ gsap.registerPlugin(ScrollTrigger);
 const services = [
     {
         id: 'service-1',
-        icon: Zap,
-        titlePrefix: 'Landing Page de',
-        titleHighlight: 'Alta Conversão',
-        description: 'Página única focada em um objetivo: fazer seu visitante tomar ação. Design estratégico, copy persuasiva e velocidade máxima.',
-        features: ['Foco em CTA', 'Carregamento rápido', 'Copy estratégica'],
-        message: 'Olá! Tenho interesse em uma Landing Page de Alta Conversão.',
+        icon: Share2,
+        titlePrefix: 'Social Media e',
+        titleHighlight: 'Gestão de Redes',
+        description: 'Planejamento de conteúdo, criação de artes e posicionamento estratégico para fortalecer sua marca no Instagram, LinkedIn e além.',
+        features: ['Planejamento de conteúdo', 'Criação de artes', 'Posicionamento estratégico'],
+        message: 'Olá! Tenho interesse em Gestão de Redes Sociais.',
         position: 'left',
     },
     {
         id: 'service-2',
-        icon: Globe,
-        titlePrefix: 'Site Institucional',
-        titleHighlight: 'Premium',
-        description: 'Presença digital profissional para sua empresa. Múltiplas páginas, SEO básico e credibilidade garantida.',
-        features: ['Múltiplas páginas', 'SEO otimizado', 'Design profissional'],
-        message: 'Olá! Tenho interesse em um Site Institucional Premium.',
+        icon: Zap,
+        titlePrefix: 'Landing Pages de',
+        titleHighlight: 'Alta Conversão',
+        description: 'Páginas focadas em captar leads e gerar vendas, com estrutura, copy e design otimizados para converter visitantes em clientes.',
+        features: ['Foco em conversão', 'Copy persuasiva', 'Velocidade máxima'],
+        message: 'Olá! Tenho interesse em uma Landing Page de Alta Conversão.',
         position: 'right',
     },
     {
         id: 'service-3',
-        icon: Layers,
-        titlePrefix: 'Portfólio /',
-        titleHighlight: 'Catálogo',
-        description: 'Mostre seus trabalhos ou produtos de forma visual e organizada. Ideal para profissionais criativos e pequenas empresas.',
-        features: ['Galeria visual', 'Organização por categorias', 'Design impactante'],
-        message: 'Olá! Tenho interesse em um Portfólio/Catálogo.',
+        icon: Palette,
+        titlePrefix: 'Identidade Visual',
+        titleHighlight: 'Profissional',
+        description: 'Do logotipo ao manual de marca completo: criamos a identidade visual que representa quem você é e diferencia sua empresa no mercado.',
+        features: ['Logotipo e variações', 'Manual de marca', 'Materiais gráficos'],
+        message: 'Olá! Tenho interesse em Identidade Visual Profissional.',
         position: 'left',
+    },
+    {
+        id: 'service-4',
+        icon: Video,
+        titlePrefix: 'Vídeo e',
+        titleHighlight: 'Motion Design',
+        description: 'Animações e vídeos estratégicos que comunicam sua marca com impacto, para redes sociais, apresentações e campanhas digitais.',
+        features: ['Motion graphics', 'Vídeos institucionais', 'Conteúdo para redes'],
+        message: 'Olá! Tenho interesse em Vídeo e Motion Design.',
+        position: 'right',
     },
 ];
 
@@ -49,7 +58,7 @@ const services = [
 function ListItem({ text }: { text: string }) {
     return (
         <div className="flex items-center gap-3 group/item justify-center lg:justify-start">
-            <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-yellow-500"></div>
+            <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand-gold"></div>
             <span className="text-zinc-300 text-[15px] font-medium group-hover/item:text-white transition-colors">
                 {text}
             </span>
@@ -79,25 +88,25 @@ const ServiceCardMobile = ({
             <Container>
                 <div className="relative w-full flex items-center justify-center h-full">
                     <div className="relative w-full flex flex-col items-center">
-                        <div className="w-full relative rounded-[24px] p-[1px] bg-gradient-to-b from-yellow-500/40 via-yellow-500/5 to-transparent shadow-2xl shadow-black">
+                        <div className="w-full relative rounded-[24px] p-[1px] bg-gradient-to-b from-brand-gold/40 via-brand-gold/5 to-transparent shadow-2xl shadow-black">
                             <div className="relative bg-[#080808] rounded-[23px] p-6 overflow-hidden flex flex-col justify-center h-[550px] w-full">
                                 {/* Background Blur */}
-                                <div className="absolute -top-40 -right-40 w-80 h-80 bg-yellow-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                                <div className="absolute -top-40 -right-40 w-80 h-80 bg-brand-gold/5 rounded-full blur-3xl pointer-events-none"></div>
 
                                 <div className="flex flex-col items-center gap-4 mb-6 relative z-10">
                                     <div className="relative">
                                         <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-                                            <service.icon className="w-7 h-7 text-yellow-400 fill-yellow-400" />
+                                            <service.icon className="w-7 h-7 text-brand-gold fill-brand-gold" />
                                         </div>
                                     </div>
 
                                     <div className="space-y-2 text-center">
-                                        <span className="inline-block text-[10px] font-bold tracking-[0.2em] uppercase text-yellow-500/80 mb-1">
+                                        <span className="inline-block text-[10px] font-bold tracking-[0.2em] uppercase mb-1 font-body text-brand-gold opacity-80">
                                             Serviço {String(index + 1).padStart(2, '0')}
                                         </span>
-                                        <h2 className="text-2xl font-black text-white leading-[1.1] tracking-tight">
+                                        <h2 className="text-2xl font-display font-semibold leading-[1.1] tracking-tight text-white">
                                             {service.titlePrefix} <br />
-                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600">
+                                            <span className="text-brand-gold">
                                                 {service.titleHighlight}
                                             </span>
                                         </h2>
@@ -171,24 +180,24 @@ const ServiceCardDesktop = ({
                             ${isLeft ? 'lg:col-start-1' : 'lg:col-start-8'}
                         `}
                     >
-                        <div className="relative rounded-[32px] p-[1px] bg-gradient-to-b from-yellow-500/40 via-yellow-500/5 to-transparent transition-all duration-500 group-hover:from-yellow-400 group-hover:via-yellow-500/20 group-hover:to-transparent shadow-2xl shadow-black">
+                        <div className="relative rounded-[32px] p-[1px] bg-gradient-to-b from-brand-gold/40 via-brand-gold/5 to-transparent transition-all duration-500 group-hover:from-brand-gold group-hover:via-brand-gold/20 group-hover:to-transparent shadow-2xl shadow-black">
                             <div className="relative h-full bg-[#080808] rounded-[31px] p-10 overflow-hidden">
-                                <div className="absolute -top-40 -right-40 w-80 h-80 bg-yellow-500/5 rounded-full blur-3xl group-hover:bg-yellow-500/10 transition-all duration-500 pointer-events-none"></div>
+                                <div className="absolute -top-40 -right-40 w-80 h-80 bg-brand-gold/5 rounded-full blur-3xl group-hover:bg-brand-gold/10 transition-all duration-500 pointer-events-none"></div>
 
                                 <div className="flex flex-col items-center lg:items-start gap-6 mb-8 relative z-10">
                                     <div className="relative">
-                                        <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-yellow-500/30 transition-colors duration-500">
-                                            <service.icon className="w-8 h-8 text-yellow-400 fill-yellow-400" />
+                                        <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-brand-gold/30 transition-colors duration-500">
+                                            <service.icon className="w-8 h-8 text-brand-gold fill-brand-gold" />
                                         </div>
                                     </div>
 
                                     <div className="space-y-2 text-center lg:text-left">
-                                        <span className="inline-block text-[11px] font-bold tracking-[0.2em] uppercase text-yellow-500/80 mb-1">
+                                        <span className="inline-block text-[11px] font-bold tracking-[0.2em] uppercase mb-1 font-body text-brand-gold opacity-80">
                                             Serviço {String(index + 1).padStart(2, '0')}
                                         </span>
-                                        <h2 className="text-4xl font-black text-white leading-[1.1] tracking-tight">
+                                        <h2 className="text-4xl font-display font-semibold leading-[1.1] tracking-tight text-white">
                                             {service.titlePrefix} <br />
-                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600">
+                                            <span className="text-brand-gold">
                                                 {service.titleHighlight}
                                             </span>
                                         </h2>
@@ -294,7 +303,7 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
             fillLight.position.set(-5, 5, -5);
             scene.add(fillLight);
 
-            soulLight = new THREE.PointLight(0xC9A24D, 5.0, 20);
+            soulLight = new THREE.PointLight(0xF58A07, 5.0, 20);
             soulLight.position.set(0, 0, 0);
             scene.add(soulLight);
 
@@ -333,7 +342,7 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
                 console.warn('Modelo lantern-model.glb não encontrado. Usando cubo placeholder.', error);
 
                 const geometry = new THREE.BoxGeometry(1, 1.5, 1);
-                const material = new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.8, roughness: 0.2 });
+                const material = new THREE.MeshStandardMaterial({ color: 0xF58A07, metalness: 0.8, roughness: 0.2 });
                 const cube = new THREE.Mesh(geometry, material);
 
                 if (lanternModelRef.current) scrollWrapper.remove(lanternModelRef.current);
@@ -374,8 +383,6 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
                     });
 
                     const baseScale = 2.2;
-                    const maxScale = 3.0;
-                    const finalScale = 2.6;
 
                     currentWrapper.position.set(posX.right, baseY, 0);
                     currentWrapper.rotation.set(0, Math.PI * 2, 0.2);
@@ -392,59 +399,65 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
                         }
                     });
 
-                    const dipY = baseY - 1.0;
+                    // Margem inicial
+                    tl.to({}, { duration: 0.05 });
 
-                    tl.to({}, { duration: 0.1 });
-
+                    // Card 1 (left) → Card 2 (right): mover para esquerda
                     tl.to(currentWrapper.position, {
                         x: posX.left,
                         ease: "power1.inOut",
-                        duration: 0.8
+                        duration: 0.6
                     }, "move1")
-                        .to(currentWrapper.position, {
-                            y: dipY,
-                            ease: "sine.inOut",
-                            yoyo: true,
-                            repeat: 1,
-                            duration: 0.4
-                        }, "move1")
                         .to(currentModel.scale, {
-                            x: maxScale, y: maxScale, z: maxScale,
+                            x: 2.6, y: 2.6, z: 2.6,
                             ease: "power1.inOut",
-                            duration: 0.8
+                            duration: 0.6
                         }, "move1")
                         .to(currentWrapper.rotation, {
-                            y: Math.PI * 1.5, x: 0.2,
+                            y: Math.PI * 1.5, x: 0.15,
                             ease: "power1.inOut",
-                            duration: 0.8
+                            duration: 0.6
                         }, "move1");
 
-                    tl.to({}, { duration: 0.3 });
+                    tl.to({}, { duration: 0.15 });
 
+                    // Card 2 (right) → Card 3 (left): mover para direita
                     tl.to(currentWrapper.position, {
                         x: posX.right,
                         ease: "power1.inOut",
-                        duration: 0.9
+                        duration: 0.6
                     }, "move2")
-                        .to(currentWrapper.position, {
-                            y: dipY,
-                            ease: "sine.inOut",
-                            yoyo: true,
-                            repeat: 1,
-                            duration: 0.45
+                        .to(currentModel.scale, {
+                            x: 2.8, y: 2.8, z: 2.8,
+                            ease: "power1.inOut",
+                            duration: 0.6
                         }, "move2")
                         .to(currentWrapper.rotation, {
-                            y: Math.PI * 2, x: 0.1,
+                            y: Math.PI * 2, x: -0.1,
                             ease: "power1.inOut",
-                            duration: 0.9
-                        }, "move2")
-                        .to(currentModel.scale, {
-                            x: finalScale, y: finalScale, z: finalScale,
-                            ease: "power1.in",
-                            duration: 0.9
+                            duration: 0.6
                         }, "move2");
 
-                    tl.to({}, { duration: 0.6 });
+                    tl.to({}, { duration: 0.15 });
+
+                    // Card 3 (left) → Card 4 (right): mover para esquerda
+                    tl.to(currentWrapper.position, {
+                        x: posX.left,
+                        ease: "power1.inOut",
+                        duration: 0.6
+                    }, "move3")
+                        .to(currentModel.scale, {
+                            x: 3.0, y: 3.0, z: 3.0,
+                            ease: "power1.inOut",
+                            duration: 0.6
+                        }, "move3")
+                        .to(currentWrapper.rotation, {
+                            y: Math.PI * 2.5, x: 0.2,
+                            ease: "power1.inOut",
+                            duration: 0.6
+                        }, "move3");
+
+                    tl.to({}, { duration: 0.3 });
                 });
 
             }, containerRef);
@@ -530,17 +543,16 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: '200px' }}
                         transition={{ duration: 0.4 }}
-                        className="max-w-2xl text-center lg:text-left mx-auto lg:mx-0"
+                        className="max-w-2xl text-left"
                     >
-                        <span className="text-yellow-500 text-sm font-medium tracking-wider uppercase mb-4 block">
-                            Serviços Premium
+                        <span className="text-sm font-medium tracking-wider uppercase mb-4 block font-body text-brand-gold">
+                            Nossos Serviços
                         </span>
-                        <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold mb-6 text-white leading-tight">
-                            O que eu <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">crio para você</span>
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold mb-6 leading-tight text-white">
+                            Serviços de <span className="text-brand-gold">Design Digital e Marketing</span>
                         </h1>
-                        <p className="text-white/60 text-lg max-w-lg leading-relaxed mx-auto lg:mx-0">
-                            Três tipos de projeto. Uma obsessão: qualidade absoluta e conversão.
-                            Sua presença digital nunca mais será a mesma.
+                        <p className="text-lg max-w-lg leading-relaxed font-body text-brand-gray/80">
+                            Design, estratégia e conteúdo integrados. Tudo que sua empresa precisa para dominar o digital.
                         </p>
                     </motion.div>
                 </Container>

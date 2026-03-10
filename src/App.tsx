@@ -3,7 +3,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ReactLenis, useLenis } from '@studio-freight/react-lenis';
 import { CustomScrollbar } from './components/CustomScrollbar';
 import Preloader from './components/Preloader';
-import HeroSection from './components/HeroSection';
+import HeroTransitionWrapper from './components/HeroTransitionWrapper';
 import AboutSection from './components/AboutSection';
 import ServicesSection from './components/ServicesSection';
 import GlassNavbar from './components/GlassNavbar';
@@ -62,14 +62,14 @@ function App() {
         // Travar scroll durante o loading
         document.body.classList.add('loading-locked');
 
-        // Tempo de carregamento (Preloader na tela)
+        // Tempo de carregamento (Preloader 2800ms de desenho JS + 600ms de preenchimento pleno)
         const loadTimer = setTimeout(() => {
             setIsLoaded(true);
-            // Liberar scroll apenas depois que o ZOOM acabar (2.5s + small buffer)
+            // Liberar scroll apenas depois que o ZOOM/Cortina acabar (2.5s)
             setTimeout(() => {
                 document.body.classList.remove('loading-locked');
-            }, 2600);
-        }, 4000);
+            }, 2500);
+        }, 3400);
 
         // Tempo para limpar efeitos ou transições se necessário
         const cleanupTimer = setTimeout(() => {
@@ -102,8 +102,8 @@ function App() {
                     </div>
                 )}
                 <GlassNavbar isLoaded={isLoaded} />
+                <HeroTransitionWrapper />
                 <div id="main-content" className="relative bg-black min-h-screen text-white font-sans">
-                    <HeroSection />
                     <AboutSection />
                     <ServicesSection enable3D={animationsDone} />
                     <Suspense fallback={<div className="min-h-screen bg-black" />}>

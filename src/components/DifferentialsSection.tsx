@@ -25,12 +25,12 @@ const Pill = ({ icon: Icon, label }: { icon: React.ElementType; label: string })
         className="
             group flex items-center gap-3 px-6 py-3 rounded-full 
             bg-white/5 border border-white/10
-            hover:bg-yellow-500/10 hover:border-yellow-500/30
+            hover:bg-brand-gold/10 hover:border-brand-gold/30
             transition-all duration-300 cursor-default shrink-0 whitespace-nowrap
         "
     >
-        <Icon className="w-5 h-5 text-yellow-500/70 group-hover:text-yellow-400 transition-colors" />
-        <span className="text-sm font-medium text-zinc-300 group-hover:text-white transition-colors">
+        <Icon className="w-5 h-5 transition-colors text-brand-gold/70 group-hover:text-brand-gold" />
+        <span className="text-sm font-medium transition-colors font-body text-brand-gray group-hover:text-white">
             {label}
         </span>
     </div>
@@ -85,10 +85,10 @@ const DifferentialsSection = () => {
                     viewport={{ once: true, margin: '200px' }}
                     transition={{ duration: 0.4 }}
                 >
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                        Por que <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600">me escolher?</span>
+                    <h2 className="text-2xl md:text-3xl font-display font-semibold mb-4 text-white">
+                        Por que <span className="text-brand-gold">me escolher?</span>
                     </h2>
-                    <p className="text-zinc-400">
+                    <p className="text-zinc-400 font-body">
                         Mais do que sites, entrego soluções digitais completas.
                     </p>
                 </motion.div>

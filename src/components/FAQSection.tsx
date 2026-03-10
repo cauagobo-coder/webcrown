@@ -5,25 +5,29 @@ import GlassCard from './GlassCard';
 
 const faqs = [
     {
-        question: 'Você faz apenas sites?',
-        answer: 'Sim. Meu foco é 100% em desenvolvimento web: landing pages, sites institucionais e portfólios. Isso me permite entregar qualidade máxima em cada projeto.',
+        question: 'Quais serviços a WebCrown oferece?',
+        answer: 'Trabalhamos com gestão de redes sociais, criação de landing pages, identidade visual e produção de vídeos e motion design para empresas de diferentes segmentos.',
     },
     {
-        question: 'Quanto tempo leva para ficar pronto?',
-        answer: 'Depende do escopo e complexidade do projeto. Uma Landing Page geralmente leva de 5 a 10 dias úteis. Sites institucionais podem levar de 15 a 30 dias.',
+        question: 'Quanto tempo leva para entregar um projeto?',
+        answer: 'O prazo varia conforme o escopo. Projetos de identidade visual levam de 1 a 3 semanas; landing pages entre 5 e 10 dias úteis. Alinhamos tudo no briefing inicial.',
     },
     {
-        question: 'O site é responsivo?',
-        answer: 'Com certeza. Todos os projetos são desenvolvidos com a metodologia "Mobile First", garantindo que funcionem perfeitamente em celulares, tablets e computadores.',
+        question: 'Atendem empresas de qualquer nicho ou segmento?',
+        answer: 'Sim. Adaptamos estratégia, linguagem e design ao perfil específico de cada negócio, de e-commerce a prestadores de serviços.',
     },
     {
-        question: 'Como funciona o pagamento?',
-        answer: 'Trabalho com 50% de entrada para iniciar o projeto e 50% na entrega. Aceito PIX e Cartão de Crédito (parcelado).',
+        question: 'O trabalho inclui apenas design ou também estratégia?',
+        answer: 'Nosso trabalho une design visual e posicionamento estratégico. Não entregamos apenas artes, entregamos comunicação que funciona.',
     },
     {
-        question: 'Vou ter acesso para editar o site depois?',
-        answer: 'Sim! Se o projeto for em WordPress ou plataforma similar, você terá acesso total ao painel administrativo para fazer alterações de texto e imagem.',
-    }
+        question: 'Posso contratar apenas um serviço específico?',
+        answer: 'Sim. Cada serviço pode ser contratado de forma isolada ou em conjunto, dependendo da necessidade do seu negócio.',
+    },
+    {
+        question: 'Atendem empresas de outros estados ou cidades?',
+        answer: 'Sim. Todos os projetos são realizados 100% online, atendendo clientes em todo o Brasil.',
+    },
 ];
 
 import Container from './Container';
@@ -44,11 +48,11 @@ const FAQSection = () => {
                             transition={{ duration: 0.4 }}
                             className="text-center mb-16"
                         >
-                            <span className="text-yellow-500 text-sm font-bold tracking-widest uppercase mb-4 block">
+                            <span className="text-sm font-bold tracking-widest uppercase mb-4 block font-body text-brand-gold">
                                 Dúvidas Comuns
                             </span>
-                            <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
-                                Perguntas <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600">Frequentes</span>
+                            <h2 className="text-4xl md:text-5xl font-display font-semibold mb-6 text-white">
+                                Perguntas <span className="text-brand-gold">Frequentes</span>
                             </h2>
                         </motion.div>
 
@@ -56,16 +60,16 @@ const FAQSection = () => {
                             {faqs.map((faq, index) => (
                                 <GlassCard
                                     key={index}
-                                    className={`transition-colors duration-300 ${openIndex === index ? 'border-yellow-500/30 bg-white/10' : 'hover:bg-white/5'}`}
+                                    className={`transition-colors duration-300 ${openIndex === index ? 'border-brand-gold/30 bg-white/10' : 'hover:bg-white/5'}`}
                                 >
                                     <button
                                         onClick={() => setOpenIndex(openIndex === index ? null : index)}
                                         className="w-full flex items-center justify-between text-left p-2 focus:outline-none"
                                     >
-                                        <span className={`text-lg font-bold pr-8 transition-colors ${openIndex === index ? 'text-yellow-500' : 'text-white'}`}>
+                                        <span className={`text-lg font-bold pr-8 transition-colors font-display ${openIndex === index ? 'text-brand-gold' : 'text-white'}`}>
                                             {faq.question}
                                         </span>
-                                        <div className={`shrink-0 p-1 rounded-full border transition-all ${openIndex === index ? 'bg-yellow-500 border-yellow-500 rotate-180' : 'border-white/20 text-white'}`}>
+                                        <div className={`shrink-0 p-1 rounded-full border transition-all ${openIndex === index ? 'bg-brand-gold border-brand-gold rotate-180' : 'border-white/20 text-white'}`}>
                                             {openIndex === index ? <Minus className="w-5 h-5 text-black" /> : <Plus className="w-5 h-5" />}
                                         </div>
                                     </button>
@@ -79,7 +83,7 @@ const FAQSection = () => {
                                                 transition={{ duration: 0.3 }}
                                                 className="overflow-hidden"
                                             >
-                                                <div className="pt-4 pr-12 text-zinc-400 leading-relaxed">
+                                                <div className="pt-4 pr-12 leading-relaxed font-body text-brand-gray/80">
                                                     {faq.answer}
                                                 </div>
                                             </motion.div>

@@ -138,8 +138,8 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
                             className={`
                 relative cursor-pointer text-sm font-medium px-3 py-2 md:px-4 md:py-2.5 rounded-full 
                 transition-colors duration-300 ease-in-out select-none flex items-center gap-2
-                outline-none focus-visible:ring-2 focus-visible:ring-yellow-500/50
-                ${isActive ? 'text-yellow-500' : 'text-white/60 hover:text-white/90'}
+                outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50
+                ${isActive ? 'text-brand-gold' : 'text-white/60 hover:text-white/90'}
               `}
                         >
                             <span className="relative z-10 flex items-center gap-2">
@@ -150,14 +150,14 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
                             {isActive && (
                                 <motion.div
                                     layoutId="lamp"
-                                    className="absolute inset-0 w-full bg-yellow-500/10 rounded-full -z-0"
+                                    className="absolute inset-0 w-full bg-brand-gold/10 rounded-full -z-0"
                                     initial={false}
                                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                                 >
-                                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-yellow-500 rounded-t-full">
-                                        <div className="absolute w-12 h-6 bg-yellow-500/20 rounded-full blur-md -top-2 -left-2" />
-                                        <div className="absolute w-8 h-6 bg-yellow-500/20 rounded-full blur-md -top-1" />
-                                        <div className="absolute w-4 h-4 bg-yellow-500/20 rounded-full blur-sm top-0 left-2" />
+                                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-brand-gold rounded-t-full">
+                                        <div className="absolute w-12 h-6 bg-brand-gold/20 rounded-full blur-md -top-2 -left-2" />
+                                        <div className="absolute w-8 h-6 bg-brand-gold/20 rounded-full blur-md -top-1" />
+                                        <div className="absolute w-4 h-4 bg-brand-gold/20 rounded-full blur-sm top-0 left-2" />
                                     </div>
                                 </motion.div>
                             )}
