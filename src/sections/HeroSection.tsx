@@ -64,8 +64,19 @@ const HeroSection = () => {
     }, [play, base]);
 
     useLayoutEffect(() => {
+        // Checa se o preloader foi pulado olhando diretamente o DOM (imune ao StrictMode double-mount)
+        const appContainer = document.querySelector('.app-container');
+        const preloaderWasSkipped = appContainer?.classList.contains('loaded') && appContainer?.classList.contains('effects-cleared');
+
         const ctx = gsap.context(() => {
-            // Cria uma Timeline PAUSADA do GSAP para orquestrar toda a entrada
+            if (preloaderWasSkipped) {
+                // Sem animação: revela tudo instantaneamente e esconde a linha do scanner
+                gsap.set('.gsap-scan-content', { clipPath: 'none', opacity: 1 });
+                gsap.set('.gsap-scan-line', { opacity: 0, scaleX: 0 });
+                return;
+            }
+
+            // ── Primeira visita: animação completa do Scanner sincronizada com o Preloader ──
             const tl = gsap.timeline({ defaults: { ease: "power3.out" }, paused: true });
 
             // Set estados iniciais pelo GSAP pra garantir que esconda tudo AGORA na montagem
@@ -147,7 +158,7 @@ const HeroSection = () => {
                     loop
                     muted
                     playsInline
-                    preload="auto"
+                    preload="metadata"
                     controls={false}
                     disablePictureInPicture
                     disableRemotePlayback

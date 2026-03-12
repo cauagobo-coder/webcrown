@@ -40,12 +40,26 @@ const LenisScrollSync = () => {
 
 const Home = () => {
     const location = useLocation();
-    const isDirectNavigation = Boolean(location.hash);
+    
+    // Checa se o usuário já passou pelo loading inicial nesta sessão para evitar quebras do React/GSAP ao usar o botão 'Voltar'
+    const hasVisited = typeof window !== 'undefined' ? sessionStorage.getItem('webcrown_visited') : null;
+    
+    // Identifica se a URL contém um "#" apontando ativamente para uma seção
+    const hasHashTarget = Boolean(location.hash);
 
-    // If navigating directly to a section (like returning from Project View), skip preloader
-    const [isLoaded, setIsLoaded] = useState<boolean>(isDirectNavigation);
-    const [animationsDone, setAnimationsDone] = useState<boolean>(isDirectNavigation);
+    // O preloader deve ser pulado SE for uma navegação direta de seção (#) OU se ele já visitou o site na sessão
+    const skipPreloader = hasHashTarget || Boolean(hasVisited);
+
+    const [isLoaded, setIsLoaded] = useState<boolean>(skipPreloader);
+    const [animationsDone, setAnimationsDone] = useState<boolean>(skipPreloader);
     const [isMobile, setIsMobile] = useState(isMobileOrTablet);
+
+    useEffect(() => {
+        if (!hasVisited && typeof window !== 'undefined') {
+            // Marca a sessão para que retornos (botão Back) de projetos ou links não re-ativem os timers visuais
+            sessionStorage.setItem('webcrown_visited', 'true');
+        }
+    }, [hasVisited]);
 
     useEffect(() => {
         // Prevent browser from trying to guess the scroll position before GSAP pins are ready
@@ -53,18 +67,19 @@ const Home = () => {
             window.history.scrollRestoration = 'manual';
         }
         
-        // Only scroll to top if we aren't trying to go to a hash
-        if (!isDirectNavigation) {
+        // APENAS rola pro topo (0,0) se NÃO houver um HASH direcionador na URL.
+        // O F5 (reload) na Home roda sem HASH, então cairá aqui e voltará ao Topo.
+        if (!hasHashTarget) {
             window.scrollTo(0, 0);
         }
         
         const onResize = () => setIsMobile(isMobileOrTablet());
         window.addEventListener('resize', onResize);
         return () => window.removeEventListener('resize', onResize);
-    }, [isDirectNavigation]);
+    }, [hasHashTarget]);
 
     useEffect(() => {
-        if (isDirectNavigation) {
+        if (skipPreloader) {
             document.body.classList.remove('loading-locked');
             setTimeout(() => { ScrollTrigger.refresh(); }, 150);
             return;
@@ -86,7 +101,7 @@ const Home = () => {
             clearTimeout(cleanupTimer);
             document.body.classList.remove('loading-locked');
         };
-    }, [isDirectNavigation]);
+    }, [skipPreloader]);
 
     // Check for hash and scroll to it ONLY after all GSAP layouts and pins are fully refreshed
     useEffect(() => {
@@ -96,13 +111,38 @@ const Home = () => {
                 const element = document.getElementById(id);
                 if (element) {
                     element.scrollIntoView({ behavior: 'auto' });
-                    // Clean the URL immediately so that a subsequent F5 loads the clean Home page
-                    window.history.replaceState(null, '', window.location.pathname + window.location.search);
+                    // Clean the URL immediately without destroying React Router History State
+                    window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search);
                 }
             }, 250); // Given ScrollTrigger.refresh is at 100ms after animationsDone, 250ms is safe
             return () => clearTimeout(timeout);
         }
     }, [location.hash, animationsDone]);
+
+    // ── Prevenidor Universal de Bugs do GSAP ScrollTrigger ──
+    // Observa o tamanho real do Body. Se botões exandirem divs ou abas abrirem, avisa o GSAP que a altura mudou!
+    useEffect(() => {
+        let timeoutId: ReturnType<typeof setTimeout>;
+        const observer = new ResizeObserver(() => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                ScrollTrigger.refresh();
+            }, 100); 
+        });
+
+        // Observa o container principal logo após todas as seções renderizarem
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+            observer.observe(mainContent);
+        } else {
+            observer.observe(document.body);
+        }
+
+        return () => {
+            observer.disconnect();
+            clearTimeout(timeoutId);
+        };
+    }, []);
 
     return (
         <div className={`app-container ${isLoaded ? 'loaded' : ''} ${animationsDone ? 'effects-cleared' : ''}`}>

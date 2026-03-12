@@ -15,9 +15,11 @@
   <meta property="og:description" content="Especialistas em criação de sites focados em conversão e SEO. Design premium, alta performance e resultados reais." />
   <meta property="og:image" content="/og-image.png" />
 
-  <!-- Preconnect: elimina DNS+TLS roundtrip para Google Fonts (~100-300ms no mobile) -->
+  <!-- Preconnect e Fetch em Paralelo para Fontes (~Ganha 200-500ms no FCP/LCP mobile) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
 

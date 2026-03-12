@@ -114,9 +114,15 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string, name: string) => {
         e.preventDefault();
         setActiveTab(name);
+
+        // "Início" deve levar ao topo absoluto da página (a Hero fica dentro de um wrapper de 300vh)
+        if (url === '#hero') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
         const element = document.querySelector(url);
         if (element) {
-            // Smooth scroll via Lenis
             element.scrollIntoView({ behavior: 'smooth' });
         }
     };

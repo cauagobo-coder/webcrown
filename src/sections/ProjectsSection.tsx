@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MousePointer2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from '../ui/Container';
 
 interface FolderItem {
@@ -57,6 +58,9 @@ const Folder = ({ folder, index }: { folder: FolderProject; index: number }) => 
     const handleFolderClick = () => {
         setIsActive(!isActive);
         if (!hasInteracted) setHasInteracted(true);
+        // Refresh GSAP/ScrollTrigger heights for ProcessSection after folder animation
+        setTimeout(() => ScrollTrigger.refresh(), 300);
+        setTimeout(() => ScrollTrigger.refresh(), 600);
     };
 
     return (
@@ -104,7 +108,10 @@ const Folder = ({ folder, index }: { folder: FolderProject; index: number }) => 
                             if (item.link && item.link !== '#') {
                                 navigate(item.link);
                             } else {
-                                setTimeout(() => setIsActive(false), 500);
+                                setTimeout(() => {
+                                    setIsActive(false);
+                                    setTimeout(() => ScrollTrigger.refresh(), 300);
+                                }, 500);
                             }
                         }}
                         onMouseEnter={() => setHoveredItem({ name: item.name, image: item.previewImage })}
