@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Share2, Zap, Palette, Video, ArrowRight } from 'lucide-react';
-import { CyberButton } from './GoldButton';
+import { Share2, Zap, Palette, TrendingUp, ArrowRight } from 'lucide-react';
+import { CyberButton } from '../ui/GoldButton';
 // Three.js is loaded dynamically (only on desktop) to save ~600KB on mobile bundle
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Container from './Container';
+import Container from '../ui/Container';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,41 +14,41 @@ const services = [
     {
         id: 'service-1',
         icon: Share2,
-        titlePrefix: 'Social Media e',
-        titleHighlight: 'Gestão de Redes',
-        description: 'Planejamento de conteúdo, criação de artes e posicionamento estratégico para fortalecer sua marca no Instagram, LinkedIn e além.',
-        features: ['Planejamento de conteúdo', 'Criação de artes', 'Posicionamento estratégico'],
-        message: 'Olá! Tenho interesse em Gestão de Redes Sociais.',
+        titlePrefix: 'Estratégia e',
+        titleHighlight: 'Posicionamento',
+        description: 'Chega de postar para as traças. Transformamos seu perfil em um ativo irresistível que atrai a audiência certa, gera autoridade instantânea e faz o cliente implorar pelo seu serviço.',
+        features: ['Visão Estratégica Focada em Lucro', 'Autoridade Magnética no Nicho', 'Linha Editorial Implacável'],
+        message: 'Olá! Estou no site da WebCrown e me interessei muito pelo serviço de *Estratégia e Posicionamento*. Gostaria de saber como vocês podem transformar meu perfil em um ativo irresistível.',
         position: 'left',
     },
     {
         id: 'service-2',
-        icon: Zap,
-        titlePrefix: 'Landing Pages de',
-        titleHighlight: 'Alta Conversão',
-        description: 'Páginas focadas em captar leads e gerar vendas, com estrutura, copy e design otimizados para converter visitantes em clientes.',
-        features: ['Foco em conversão', 'Copy persuasiva', 'Velocidade máxima'],
-        message: 'Olá! Tenho interesse em uma Landing Page de Alta Conversão.',
+        icon: Palette,
+        titlePrefix: 'Design de',
+        titleHighlight: 'Conteúdo Premium',
+        description: 'O visual que separa o líder do amador. Criamos artes de luxo que prendem a atenção visceralmente em 3 segundos e obrigam o cérebro do cliente a valorizar sua marca.',
+        features: ['Design de Alto Padrão (Luxo)', 'Identidade que Esmaga Objeções', 'Criativos Desenhados para Escala'],
+        message: 'Olá! Estou no site da WebCrown e fiquei impressionado com o *Design de Conteúdo Premium*. Preciso muito elevar o nível visual da minha marca.',
         position: 'right',
     },
     {
         id: 'service-3',
-        icon: Palette,
-        titlePrefix: 'Identidade Visual',
-        titleHighlight: 'Profissional',
-        description: 'Do logotipo ao manual de marca completo: criamos a identidade visual que representa quem você é e diferencia sua empresa no mercado.',
-        features: ['Logotipo e variações', 'Manual de marca', 'Materiais gráficos'],
-        message: 'Olá! Tenho interesse em Identidade Visual Profissional.',
+        icon: Zap,
+        titlePrefix: 'Landing Pages de',
+        titleHighlight: 'Alta Conversão',
+        description: 'Páginas não devem apenas informar, devem VENDER. Construímos maquinários de conversão velozes com Copy focada em transformar tráfego frio em lucro previsível.',
+        features: ['Copy Direct-Response Implacável', 'Design e UX de Alta Performance', 'Tempo de Carregamento Ultra-rápido'],
+        message: 'Olá! Vim pelo site da WebCrown e quero encomendar uma *Landing Page de Alta Conversão*. Quero transformar meu tráfego em lucro real.',
         position: 'left',
     },
     {
         id: 'service-4',
-        icon: Video,
-        titlePrefix: 'Vídeo e',
-        titleHighlight: 'Motion Design',
-        description: 'Animações e vídeos estratégicos que comunicam sua marca com impacto, para redes sociais, apresentações e campanhas digitais.',
-        features: ['Motion graphics', 'Vídeos institucionais', 'Conteúdo para redes'],
-        message: 'Olá! Tenho interesse em Vídeo e Motion Design.',
+        icon: TrendingUp,
+        titlePrefix: 'Ecossistema e',
+        titleHighlight: 'Funil de Vendas',
+        description: 'Integramos suas redes e páginas em um sistema blindado que converte visitantes 24 horas por dia. A verdadeira máquina de captação que seus concorrentes não vão entender.',
+        features: ['Integração Estratégica de Canais', 'Automação de Captura de Leads', 'Crescimento Exponencial'],
+        message: 'Olá! Vim pelo site da WebCrown e achei fantástico o serviço de *Ecossistema e Funil de Vendas*. Gostaria de construir essa máquina de captação para o meu negócio.',
         position: 'right',
     },
 ];
@@ -321,7 +321,7 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
             loader.setDRACOLoader(dracoLoader);
 
             try {
-                const gltf = await loader.loadAsync('/models/lantern-model.glb');
+                const gltf = await loader.loadAsync('/models/coroa3D.glb');
                 if (cancelled) return;
                 const lanternModel = gltf.scene;
 
@@ -333,13 +333,13 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
                 scrollWrapper.add(lanternModel);
                 lanternModel.add(light);
 
-                lanternModel.scale.set(2.5, 2.5, 2.5);
+                lanternModel.scale.set(3.5, 3.5, 3.5);
 
                 refreshAnimations();
 
             } catch (error) {
                 if (cancelled) return;
-                console.warn('Modelo lantern-model.glb não encontrado. Usando cubo placeholder.', error);
+                console.warn('Modelo coroa3D.glb não encontrado. Usando cubo placeholder.', error);
 
                 const geometry = new THREE.BoxGeometry(1, 1.5, 1);
                 const material = new THREE.MeshStandardMaterial({ color: 0xF58A07, metalness: 0.8, roughness: 0.2 });
@@ -370,10 +370,10 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
                     if (!cardsContainerDesktopRef.current) return;
 
                     const posX = {
-                        right: 3.5,
-                        left: -3.5
+                        right: 2.2,
+                        left: -2.2
                     };
-                    const baseY = -1.5;
+                    const baseY = -0.5;
 
                     const idleTl = gsap.timeline({ repeat: -1, yoyo: true });
                     idleTl.to(currentModel.position, {
@@ -382,7 +382,23 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
                         ease: "sine.inOut"
                     });
 
-                    const baseScale = 2.2;
+                    // --- Mouse Interaction ---
+                    const handleMouseMove = (e: MouseEvent) => {
+                        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+                        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+                        // Faz o modelo inclinar conforme o mouse se move
+                        gsap.to(currentModel.rotation, {
+                            x: y * 0.4,
+                            y: x * 0.4,
+                            z: -x * 0.1,
+                            duration: 2.5,
+                            ease: "power3.out" // Suave e contínuo
+                        });
+                    };
+                    window.addEventListener("mousemove", handleMouseMove);
+
+                    const baseScale = 3.2;
 
                     currentWrapper.position.set(posX.right, baseY, 0);
                     currentWrapper.rotation.set(0, Math.PI * 2, 0.2);
@@ -392,72 +408,83 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
                     const tl = gsap.timeline({
                         scrollTrigger: {
                             trigger: cardsContainerDesktopRef.current,
-                            start: "top top",
+                            start: "top top", // Back to "top top" for exact sync
                             end: "bottom bottom",
                             scrub: true,
                             invalidateOnRefresh: true,
                         }
                     });
 
-                    // Margem inicial
-                    tl.to({}, { duration: 0.05 });
+                    // Cada card tem 100vh de scroll e a margem inferior é de aprox 20vh (total de scroll útil 320)
+                    // Configurando o tempo total para 320 garante mapeamento 1:1, permitindo pausas perfeitas.
+                    tl.to({}, { duration: 320 });
 
-                    // Card 1 (left) → Card 2 (right): mover para esquerda
+                    // Scroll 0-20: Parado (Texto 1 focado)
+                    // Scroll 20-80: Card 1 -> Card 2 (Model vai para a esquerda)
                     tl.to(currentWrapper.position, {
                         x: posX.left,
                         ease: "power1.inOut",
-                        duration: 0.6
-                    }, "move1")
-                        .to(currentModel.scale, {
-                            x: 2.6, y: 2.6, z: 2.6,
-                            ease: "power1.inOut",
-                            duration: 0.6
-                        }, "move1")
+                        duration: 60
+                    }, 20)
                         .to(currentWrapper.rotation, {
-                            y: Math.PI * 1.5, x: 0.15,
-                            ease: "power1.inOut",
-                            duration: 0.6
-                        }, "move1");
+                            // Parada 2: Gira 180 graus (Math.PI) mostrando a parte de trás completamente
+                            y: Math.PI * 1.0,
+                            x: 0.1,
+                            z: 0.05,
+                            ease: "power2.inOut",
+                            duration: 60
+                        }, 20)
+                        .to(currentModel.scale, {
+                            x: 2.7, y: 2.7, z: 2.7, // Dá uma leve afastada
+                            ease: "power2.inOut",
+                            duration: 60
+                        }, 20);
 
-                    tl.to({}, { duration: 0.15 });
-
-                    // Card 2 (right) → Card 3 (left): mover para direita
+                    // Scroll 80-120: Parado (Texto 2 focado)
+                    // Scroll 120-180: Card 2 -> Card 3 (Model volta para a direita)
                     tl.to(currentWrapper.position, {
                         x: posX.right,
                         ease: "power1.inOut",
-                        duration: 0.6
-                    }, "move2")
-                        .to(currentModel.scale, {
-                            x: 2.8, y: 2.8, z: 2.8,
-                            ease: "power1.inOut",
-                            duration: 0.6
-                        }, "move2")
+                        duration: 60
+                    }, 120)
                         .to(currentWrapper.rotation, {
-                            y: Math.PI * 2, x: -0.1,
-                            ease: "power1.inOut",
-                            duration: 0.6
-                        }, "move2");
+                            // Parada 3: Volta a mostrar a FRENTE (Math.PI * 2), mas inclinada diferente
+                            y: Math.PI * 2.1,
+                            x: -0.15,
+                            z: -0.05,
+                            ease: "power2.inOut",
+                            duration: 60
+                        }, 120)
+                        .to(currentModel.scale, {
+                            x: 3.6, y: 3.6, z: 3.6, // Aproxima o modelo ficando grandioso
+                            ease: "power2.inOut",
+                            duration: 60
+                        }, 120);
 
-                    tl.to({}, { duration: 0.15 });
-
-                    // Card 3 (left) → Card 4 (right): mover para esquerda
+                    // Scroll 180-220: Parado (Texto 3 focado)
+                    // Scroll 220-280: Card 3 -> Card 4 (Model vai para a esquerda, reta final)
                     tl.to(currentWrapper.position, {
                         x: posX.left,
                         ease: "power1.inOut",
-                        duration: 0.6
-                    }, "move3")
-                        .to(currentModel.scale, {
-                            x: 3.0, y: 3.0, z: 3.0,
-                            ease: "power1.inOut",
-                            duration: 0.6
-                        }, "move3")
+                        duration: 60
+                    }, 220)
                         .to(currentWrapper.rotation, {
-                            y: Math.PI * 2.5, x: 0.2,
-                            ease: "power1.inOut",
-                            duration: 0.6
-                        }, "move3");
+                            // Parada 4: Gira 180 graus de novo (Math.PI * 3) mostrando as COSTAS pela 2ª vez
+                            y: Math.PI * 3.1,
+                            x: 0.2,
+                            z: 0.1,
+                            ease: "power2.inOut",
+                            duration: 60
+                        }, 220)
+                        .to(currentModel.scale, {
+                            x: 3.0, y: 3.0, z: 3.0, // Retorna a um tamanho um pouco abaixo do original
+                            ease: "power2.inOut",
+                            duration: 60
+                        }, 220);
 
-                    tl.to({}, { duration: 0.3 });
+                    return () => {
+                        window.removeEventListener("mousemove", handleMouseMove);
+                    };
                 });
 
             }, containerRef);
@@ -543,15 +570,15 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: '200px' }}
                         transition={{ duration: 0.4 }}
-                        className="max-w-2xl text-left"
+                        className="max-w-2xl text-center md:text-left mx-auto md:mx-0 flex flex-col items-center md:items-start"
                     >
-                        <span className="text-sm font-medium tracking-wider uppercase mb-4 block font-body text-brand-gold">
+                        <span className="text-sm font-bold tracking-widest uppercase mb-4 block font-body text-brand-gold">
                             Nossos Serviços
                         </span>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold mb-6 leading-tight text-white">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
                             Serviços de <span className="text-brand-gold">Design Digital e Marketing</span>
-                        </h1>
-                        <p className="text-lg max-w-lg leading-relaxed font-body text-brand-gray/80">
+                        </h2>
+                        <p className="text-base md:text-lg max-w-lg leading-relaxed font-body text-neutral-400 text-center md:text-left">
                             Design, estratégia e conteúdo integrados. Tudo que sua empresa precisa para dominar o digital.
                         </p>
                     </motion.div>

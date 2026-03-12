@@ -17,7 +17,7 @@ const differentials = [
 const row1 = differentials.slice(0, 4);
 const row2 = differentials.slice(4);
 
-import Container from './Container';
+import Container from '../ui/Container';
 
 // --- Pill Component ---
 const Pill = ({ icon: Icon, label }: { icon: React.ElementType; label: string }) => (
@@ -85,10 +85,10 @@ const DifferentialsSection = () => {
                     viewport={{ once: true, margin: '200px' }}
                     transition={{ duration: 0.4 }}
                 >
-                    <h2 className="text-2xl md:text-3xl font-display font-semibold mb-4 text-white">
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
                         Por que <span className="text-brand-gold">me escolher?</span>
                     </h2>
-                    <p className="text-zinc-400 font-body">
+                    <p className="text-base md:text-lg max-w-lg mx-auto text-neutral-400 font-body">
                         Mais do que sites, entrego soluções digitais completas.
                     </p>
                 </motion.div>

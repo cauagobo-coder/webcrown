@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Clock, Award, Target, Star } from 'lucide-react';
-import GlassCard from './GlassCard';
-import Container from './Container';
+import GlassCard from '../ui/GlassCard';
+import Container from '../ui/Container';
 
 const highlights = [
     { icon: Award, label: '7+ anos combinados', description: 'Experiência sólida em design e estratégia digital' },
@@ -34,7 +34,7 @@ const AboutSection = () => {
                             Sobre Nós
                         </span>
 
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold mb-8 leading-tight text-white">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
                             Quem está por trás{' '}
                             <br />
                             <span className="text-brand-gold">
@@ -42,7 +42,7 @@ const AboutSection = () => {
                             </span>
                         </h2>
 
-                        <div className="space-y-6 text-lg leading-relaxed max-w-lg mx-auto lg:mx-0 font-body text-brand-gray/80">
+                        <div className="space-y-6 text-base md:text-lg leading-relaxed max-w-lg mx-auto lg:mx-0 font-body text-neutral-400">
                             <p>
                                 A WebCrown é uma agência de design e marketing digital fundada por Felix e Cauã, dois especialistas em criação visual e estratégia digital com mais de 7 anos de experiência combinada no mercado.
                             </p>

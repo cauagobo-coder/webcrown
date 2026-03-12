@@ -1,6 +1,6 @@
 import { MessageCircle, Instagram, Linkedin, ArrowUp } from 'lucide-react';
 
-import Container from './Container';
+import Container from '../ui/Container';
 
 const FooterSection = () => {
     const scrollToTop = () => {
@@ -14,9 +14,9 @@ const FooterSection = () => {
 
                     {/* Brand */}
                     <div className="col-span-12 md:col-span-4 text-center md:text-left">
-                        <span className="text-2xl font-display font-bold tracking-tighter text-white">Cauã<span className="text-brand-gold">.</span></span>
+                        <span className="text-2xl font-display font-bold tracking-tighter text-white">WebCrown<span className="text-brand-gold">.</span></span>
                         <p className="text-sm mt-1 font-body text-brand-gray/80">
-                            Desenvolvimento Web de Alta Performance
+                            Agência de Design e Tecnologia de Elite
                         </p>
                     </div>
 

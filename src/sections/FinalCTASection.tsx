@@ -1,5 +1,5 @@
 import React from 'react';
-import GoldButton from './GoldButton';
+import GoldButton from '../ui/GoldButton';
 import { motion } from 'framer-motion';
 
 const FinalCTASection: React.FC = () => {
@@ -20,11 +20,11 @@ const FinalCTASection: React.FC = () => {
                     viewport={{ once: true, margin: '200px' }}
                     transition={{ duration: 0.4 }}
                 >
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold mb-6 tracking-tight text-white">
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
                         Pronto para transformar sua marca em uma <span className="text-brand-gold">presença digital de impacto?</span>
                     </h2>
 
-                    <p className="text-lg md:text-xl max-w-2xl mx-auto mb-12 font-body text-brand-gray/80">
+                    <p className="text-base md:text-lg max-w-2xl mx-auto mb-12 font-body text-neutral-400">
                         Se você quer design profissional, estratégia visual e conteúdo que converte, a WebCrown é o parceiro certo para o seu negócio.
                     </p>
 

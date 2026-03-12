@@ -18,7 +18,7 @@ export const GoldButton: React.FC<ButtonProps> = ({ children, className = '', wh
                 href={link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`btn-gold inline-flex items-center justify-center whitespace-nowrap ${className}`}
+                className={`btn-gold inline-flex items-center justify-center text-center ${className}`}
             >
                 <span className="relative z-10">{children}</span>
             </a>
@@ -27,7 +27,7 @@ export const GoldButton: React.FC<ButtonProps> = ({ children, className = '', wh
 
     return (
         <button
-            className={`btn-gold inline-flex items-center justify-center whitespace-nowrap ${className}`}
+            className={`btn-gold inline-flex items-center justify-center text-center ${className}`}
             onClick={onClick}
             {...props}
         >
@@ -39,7 +39,7 @@ export const GoldButton: React.FC<ButtonProps> = ({ children, className = '', wh
 export const SecondaryButton: React.FC<ButtonProps> = ({ children, className = '', onClick, ...props }) => {
     return (
         <button
-            className={`btn-secondary inline-flex items-center justify-center gap-2 whitespace-nowrap ${className}`}
+            className={`btn-secondary inline-flex items-center justify-center text-center gap-2 ${className}`}
             onClick={onClick}
             {...props}
         >

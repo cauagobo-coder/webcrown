@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
-import GlassCard from './GlassCard';
+import GlassCard from '../ui/GlassCard';
+import Container from '../ui/Container';
 
 const faqs = [
     {
@@ -30,8 +31,6 @@ const faqs = [
     },
 ];
 
-import Container from './Container';
-
 const FAQSection = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
 
@@ -51,7 +50,7 @@ const FAQSection = () => {
                             <span className="text-sm font-bold tracking-widest uppercase mb-4 block font-body text-brand-gold">
                                 Dúvidas Comuns
                             </span>
-                            <h2 className="text-4xl md:text-5xl font-display font-semibold mb-6 text-white">
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
                                 Perguntas <span className="text-brand-gold">Frequentes</span>
                             </h2>
                         </motion.div>
@@ -83,7 +82,7 @@ const FAQSection = () => {
                                                 transition={{ duration: 0.3 }}
                                                 className="overflow-hidden"
                                             >
-                                                <div className="pt-4 pr-12 leading-relaxed font-body text-brand-gray/80">
+                                                <div className="pt-4 pr-12 leading-relaxed text-base md:text-lg font-body text-neutral-400">
                                                     {faq.answer}
                                                 </div>
                                             </motion.div>

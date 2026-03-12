@@ -9,8 +9,8 @@ import {
     ArrowDown,
     Sparkles
 } from 'lucide-react';
-import { GoldButton } from './GoldButton';
-import Container from './Container';
+import { GoldButton } from '../ui/GoldButton';
+import Container from '../ui/Container';
 
 // --- Interfaces ---
 interface StepProps {
@@ -55,9 +55,9 @@ const Header = ({ compact = false }: { compact?: boolean }) => {
         <section className={`relative ${compact ? 'py-20' : 'h-[90vh]'} flex flex-col justify-center bg-[#050505] z-10 border-b border-white/5`}>
             <Container>
                 <div className="max-w-4xl flex flex-col items-center lg:items-start text-center lg:text-left mx-auto lg:mx-0">
-                    <h1 className={`${compact ? 'text-4xl md:text-5xl' : 'text-5xl md:text-7xl lg:text-9xl'} font-black text-white leading-[0.9] tracking-tighter mb-6`}>
-                        Nosso<br /><span className="text-brand-gold">Método</span>
-                    </h1>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
+                        Nosso <span className="text-brand-gold">Método</span>
+                    </h2>
 
                     <p className="text-neutral-300 font-semibold text-lg md:text-2xl max-w-2xl leading-snug mb-6">
                         Do briefing ao resultado. Estratégia que pensa. Execução que impacta.
@@ -179,7 +179,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ step, scrollYProgress, th
                     <step.icon className="w-8 h-8 text-white/10 group-hover:text-brand-gold group-hover:drop-shadow-[0_0_12px_rgba(245,138,7,0.4)] transition-all duration-500" />
                 </div>
 
-                <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-white mb-3 md:mb-4 tracking-tighter leading-none">{step.title}</h3>
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-white mb-3 md:mb-4 tracking-tighter leading-none whitespace-nowrap">{step.title}</h3>
                 <p className="text-neutral-500 group-hover:text-neutral-300 transition-colors leading-relaxed text-xs md:text-sm">{step.description}</p>
 
                 <div className="mt-auto pt-8">

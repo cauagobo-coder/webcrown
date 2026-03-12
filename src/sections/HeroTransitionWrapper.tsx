@@ -6,6 +6,7 @@ import HeroSection from './HeroSection';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Removendo Props de controle externo, voltando à independência
 const HeroTransitionWrapper: React.FC = () => {
     const outerRef = useRef<HTMLDivElement>(null);
     const stickyRef = useRef<HTMLDivElement>(null);
@@ -13,21 +14,9 @@ const HeroTransitionWrapper: React.FC = () => {
     const textRef = useRef<HTMLDivElement>(null);
     const heroContentRef = useRef<HTMLDivElement>(null);
 
+    // ── 2. ScrollTrigger e Parallax (Independente do Loading inicial) ──
     useEffect(() => {
         if (!outerRef.current || !stickyRef.current || !containerRef.current || !textRef.current || !heroContentRef.current) return;
-
-        // ── Animação de entrada (scale + brightness) na hero interna ──
-        gsap.set(heroContentRef.current, { scale: 1.3, filter: 'brightness(0)' });
-        gsap.to(heroContentRef.current, {
-            scale: 1,
-            filter: 'brightness(1)',
-            duration: 1.8,
-            delay: 1.5,
-            ease: 'power2.out',
-            onComplete: () => {
-                gsap.set(heroContentRef.current, { clearProps: 'transform,filter' });
-            }
-        });
 
         // ── Setup dos painéis e split-type ──
         const panels = gsap.utils.toArray<HTMLElement>('.transition-panel', containerRef.current);
@@ -76,6 +65,18 @@ const HeroTransitionWrapper: React.FC = () => {
                 duration: 0.4,
                 ease: 'power2.out',
             }, '<0.3');
+        }
+
+        // Fase 3: Indicador de scroll surge
+        const scrollInd = textRef.current.querySelector<HTMLElement>('.scroll-indicator-wrap');
+        if (scrollInd) {
+            gsap.set(scrollInd, { opacity: 0, y: 20 });
+            tl.to(scrollInd, {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                ease: 'power2.out',
+            }, '<0.4');
         }
 
         return () => {
@@ -128,17 +129,29 @@ const HeroTransitionWrapper: React.FC = () => {
                     {panels}
                 </div>
 
-                {/* Texto centralizado */}
+                {/* Texto centralizado e Indicador de Scroll */}
                 <div
                     ref={textRef}
                     className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none px-6"
                 >
-                    <h2 className="reveal-title text-4xl md:text-5xl lg:text-7xl font-display font-black text-white text-center mb-4 leading-tight">
-                        O Próximo Nível
-                    </h2>
-                    <p className="reveal-sub text-lg md:text-xl font-body text-[#a1a1aa] text-center max-w-xl">
-                        A jornada para uma presença digital premium e focada em conversão começou.
-                    </p>
+                    <div className="flex flex-col items-center justify-center mb-16">
+                        <h2 className="reveal-title text-4xl md:text-5xl lg:text-7xl font-display font-black text-white text-center mb-4 leading-tight">
+                            O Próximo Nível
+                        </h2>
+                        <p className="reveal-sub text-lg md:text-xl font-body text-[#a1a1aa] text-center max-w-xl">
+                            A jornada para uma presença digital premium e focada em conversão começou.
+                        </p>
+                    </div>
+
+                    {/* Scroll Indicator */}
+                    <div className="scroll-indicator-wrap absolute bottom-12 flex flex-col items-center gap-3">
+                        <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] font-body text-brand-gold/80">
+                            Role para Descobrir
+                        </span>
+                        <div className="w-[1px] h-12 bg-white/20 relative overflow-hidden">
+                            <div className="absolute top-0 left-0 w-full h-full bg-brand-gold animate-scroll-drop origin-top"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

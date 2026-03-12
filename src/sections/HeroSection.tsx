@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
-import GoldButton, { CyberButton } from './GoldButton';
-import Container from './Container';
+import GoldButton, { CyberButton } from '../ui/GoldButton';
+import Container from '../ui/Container';
 import gsap from 'gsap';
 
 const useVideoBase = () => {
@@ -69,7 +69,7 @@ const HeroSection = () => {
             const tl = gsap.timeline({ defaults: { ease: "power3.out" }, paused: true });
 
             // Set estados iniciais pelo GSAP pra garantir que esconda tudo AGORA na montagem
-            gsap.set('.gsap-scan-content', { 
+            gsap.set('.gsap-scan-content', {
                 clipPath: "inset(0% 0% 100% 0%)",
                 opacity: 0
             });
@@ -89,27 +89,27 @@ const HeroSection = () => {
                 opacity: 1
             })
 
-            // 2. A linha desce até ao fundo revelando os elementos
-            .to(".gsap-scan-line", {
-                duration: 2,
-                top: "calc(100% + 10px)",
-                ease: "power2.inOut"
-            })
-            
-            // Animação do clip-path no bloco inteiro sincronizada (<) com a linha
-            .to(".gsap-scan-content", {
-                duration: 2,
-                clipPath: "inset(0% 0% 0% 0%)",
-                ease: "power2.inOut"
-            }, "<")
+                // 2. A linha desce até ao fundo revelando os elementos
+                .to(".gsap-scan-line", {
+                    duration: 2,
+                    top: "calc(100% + 10px)",
+                    ease: "power2.inOut"
+                })
 
-            // 3. A linha do scanner encolhe e desaparece no final
-            .to(".gsap-scan-line", {
-                duration: 0.4,
-                scaleX: 0,
-                opacity: 0,
-                ease: "power2.in"
-            });
+                // Animação do clip-path no bloco inteiro sincronizada (<) com a linha
+                .to(".gsap-scan-content", {
+                    duration: 2,
+                    clipPath: "inset(0% 0% 0% 0%)",
+                    ease: "power2.inOut"
+                }, "<")
+
+                // 3. A linha do scanner encolhe e desaparece no final
+                .to(".gsap-scan-line", {
+                    duration: 0.4,
+                    scaleX: 0,
+                    opacity: 0,
+                    ease: "power2.in"
+                });
 
             // O GSAP subiu atrás do PRELOADER. Vamos checar até a classe .loaded existir
             const checkLoaded = setInterval(() => {
@@ -130,14 +130,14 @@ const HeroSection = () => {
             return () => clearInterval(checkLoaded);
 
         }, containerRef);
-        
+
         return () => ctx.revert();
     }, []);
 
     return (
         <section
             id="hero"
-            className="hero-emergence-wrapper h-[100svh] flex flex-col justify-center items-center relative overflow-hidden pt-20 pb-6"
+            className="hero-emergence-wrapper h-[100svh] flex flex-col justify-center items-center relative overflow-hidden py-4"
             ref={containerRef}
         >
             <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
@@ -167,23 +167,23 @@ const HeroSection = () => {
 
                         {/* Único container do Scanner para orquestrar tudo */}
                         <div className="w-full max-w-4xl mx-auto flex flex-col items-center relative mb-[5px]">
-                            
+
                             {/* A linha que vai varrer toda a área de cima a baixo */}
                             <div className="gsap-scan-line absolute -left-[5%] w-[110%] h-[4px] bg-[#F58A07] rounded-[4px] z-10 pointer-events-none origin-center" style={{ boxShadow: '0 0 15px #F58A07, 0 0 30px rgba(245, 138, 7, 0.5)' }}></div>
 
                             {/* O conteúdo que será revelado gradualmente */}
                             <div className="gsap-scan-content w-full flex flex-col items-center">
-                                
+
                                 {/* Badge */}
-                                <div className="mb-6">
-                                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-[0.15em] font-body text-brand-gold border border-brand-gold/20 bg-brand-gold/5">
+                                <div className="mb-4 md:mb-6">
+                                    <span className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 rounded-full text-[9px] md:text-[11px] font-bold uppercase tracking-[0.15em] font-body text-brand-gold border border-brand-gold/20 bg-brand-gold/5">
                                         <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-brand-gold" />
                                         Agência de Design Digital
                                     </span>
                                 </div>
 
                                 {/* H1 */}
-                                <h1 className="w-full mt-4 mb-8 text-center text-4xl md:text-5xl lg:text-6xl font-display font-semibold leading-[1.05] tracking-tight text-white">
+                                <h1 className="w-full mt-2 mb-4 md:mt-4 md:mb-8 text-center text-3xl md:text-5xl lg:text-6xl font-display font-semibold leading-[1.1] md:leading-[1.05] tracking-tight text-white px-2">
                                     Design Digital para Empresas que Querem{' '}
                                     <span className="text-brand-gold">
                                         Crescer Online
@@ -191,17 +191,17 @@ const HeroSection = () => {
                                 </h1>
 
                                 {/* H2 Subtitle */}
-                                <p className="mt-6 mb-8 text-center text-base md:text-lg font-body text-brand-gray leading-relaxed max-w-lg mx-auto">
+                                <p className="mt-2 mb-6 md:mt-6 md:mb-8 text-center text-sm md:text-lg font-body text-brand-gray leading-relaxed max-w-lg mx-auto px-4">
                                     Combinamos identidade visual, gestão de redes sociais, landing pages e motion design para construir marcas digitais que se destacam e convertem.
                                 </p>
 
                                 {/* Buttons */}
-                                <div className="inline-block w-max mt-10">
-                                    <div className="flex flex-col sm:flex-row items-center gap-5">
-                                        <GoldButton whatsappMessage="Olá! Vim pelo site da WebCrown e gostaria de solicitar um orçamento.">
+                                <div className="w-full max-w-[280px] sm:max-w-none flex justify-center mt-2 md:mt-10 px-4">
+                                    <div className="flex flex-col sm:flex-row items-center justify-center w-full gap-3 md:gap-5">
+                                        <GoldButton className="w-full sm:w-auto text-[13px] md:text-base py-2.5 md:py-3" whatsappMessage="Olá! Vim pelo site da WebCrown e gostaria de solicitar um orçamento.">
                                             Solicitar Orçamento
                                         </GoldButton>
-                                        <CyberButton onClick={() => {
+                                        <CyberButton className="w-full sm:w-auto text-[13px] md:text-base py-2.5 md:py-3" onClick={() => {
                                             document.getElementById('projetos')?.scrollIntoView({ behavior: 'smooth' });
                                         }}>
                                             Ver Portfólio
@@ -215,6 +215,23 @@ const HeroSection = () => {
                     </div>
                 </div>
             </Container>
+
+            {/* --- Marquee Overlay na Base da Hero --- */}
+            <div className="marquee-container" aria-hidden="true">
+                <div className="marquee-content">
+                    {/* Metade 1 */}
+                    <span>WEBCROWN</span><span>•</span>
+                    <span>WEBCROWN</span><span>•</span>
+                    <span>WEBCROWN</span><span>•</span>
+                    <span>WEBCROWN</span><span>•</span>
+
+                    {/* Metade 2 (Cópia exata da Metade 1 para loop perfeito) */}
+                    <span>WEBCROWN</span><span>•</span>
+                    <span>WEBCROWN</span><span>•</span>
+                    <span>WEBCROWN</span><span>•</span>
+                    <span>WEBCROWN</span><span>•</span>
+                </div>
+            </div>
         </section>
     );
 };
