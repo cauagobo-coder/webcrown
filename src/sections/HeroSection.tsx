@@ -87,7 +87,7 @@ const HeroSection = () => {
             gsap.set('.gsap-scan-line', {
                 scaleX: 0,
                 opacity: 0,
-                y: -10
+                top: "-10px"
             });
 
             // Seq: Aparece conteúdo subjacente invisivel primeiro
@@ -100,10 +100,10 @@ const HeroSection = () => {
                 opacity: 1
             })
 
-                // 2. A linha desce até ao fundo revelando os elementos (GPU-composta via translateY)
+                // 2. A linha desce até ao fundo revelando os elementos
                 .to(".gsap-scan-line", {
                     duration: 2,
-                    y: "110%",
+                    top: "calc(100% + 10px)",
                     ease: "power2.inOut"
                 })
 
@@ -180,7 +180,7 @@ const HeroSection = () => {
                         <div className="w-full max-w-4xl mx-auto flex flex-col items-center relative mb-[5px]">
 
                             {/* A linha que vai varrer toda a área de cima a baixo */}
-                            <div className="gsap-scan-line absolute top-0 -left-[5%] w-[110%] h-[4px] bg-[#F58A07] rounded-[4px] z-10 pointer-events-none origin-center" style={{ boxShadow: '0 0 15px #F58A07, 0 0 30px rgba(245, 138, 7, 0.5)', willChange: 'transform, opacity' }}></div>
+                            <div className="gsap-scan-line absolute -left-[5%] w-[110%] h-[4px] bg-[#F58A07] rounded-[4px] z-10 pointer-events-none origin-center" style={{ boxShadow: '0 0 15px #F58A07, 0 0 30px rgba(245, 138, 7, 0.5)' }}></div>
 
                             {/* O conteúdo que será revelado gradualmente */}
                             <div className="gsap-scan-content w-full flex flex-col items-center">
