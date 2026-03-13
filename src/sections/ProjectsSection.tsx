@@ -144,7 +144,7 @@ const Folder = ({ folder, index }: { folder: FolderProject; index: number }) => 
 
 const ProjectsSection = () => {
     return (
-        <section id="projetos" className="py-32 relative bg-black/95 overflow-hidden">
+        <section id="projetos" className="py-32 relative bg-black/95">
             <Container className="relative z-10">
 
                 <motion.div
