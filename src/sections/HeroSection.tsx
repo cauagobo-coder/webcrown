@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react
 import GoldButton, { CyberButton } from '../ui/GoldButton';
 import Container from '../ui/Container';
 import gsap from 'gsap';
+import { useLenis } from '@studio-freight/react-lenis';
 
 const useVideoBase = () => {
     const [base, setBase] = useState('desktop');
@@ -21,6 +22,7 @@ const useVideoBase = () => {
 
 const HeroSection = () => {
     const base = useVideoBase();
+    const lenis = useLenis(() => {}, []);
     const videoRef = useRef<HTMLVideoElement>(null);
     const sourceRef = useRef<HTMLSourceElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -158,6 +160,7 @@ const HeroSection = () => {
                     loop
                     muted
                     playsInline
+                    {...({ fetchpriority: 'high' } as any)}
                     preload="metadata"
                     controls={false}
                     disablePictureInPicture
@@ -213,7 +216,12 @@ const HeroSection = () => {
                                             Solicitar Orçamento
                                         </GoldButton>
                                         <CyberButton className="w-full sm:w-auto text-[13px] md:text-base py-2.5 md:py-3" onClick={() => {
-                                            document.getElementById('projetos')?.scrollIntoView({ behavior: 'smooth' });
+                                            const target = document.getElementById('projetos');
+                                            if (lenis && target) {
+                                                lenis.scrollTo(target, { duration: 1.2 });
+                                            } else {
+                                                target?.scrollIntoView({ behavior: 'smooth' });
+                                            }
                                         }}>
                                             Ver Portfólio
                                         </CyberButton>

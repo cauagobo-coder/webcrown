@@ -111,19 +111,30 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
         };
     }, [isLoaded]); // Dependência de isLoaded ajuda a recalcular se o layout mudar pós-load
 
+    // Instância do Lenis para rolagem sincronizada com a engine
+    const lenis = useLenis(() => {}, []);
+
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string, name: string) => {
         e.preventDefault();
         setActiveTab(name);
 
         // "Início" deve levar ao topo absoluto da página (a Hero fica dentro de um wrapper de 300vh)
         if (url === '#hero') {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (lenis) {
+                lenis.scrollTo(0, { duration: 1.2 });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
             return;
         }
 
         const element = document.querySelector(url);
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+            if (lenis) {
+                lenis.scrollTo(element, { duration: 1.2 });
+            } else {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
         }
     };
 
