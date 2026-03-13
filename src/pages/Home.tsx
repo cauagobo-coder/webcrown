@@ -52,9 +52,12 @@ const Home = () => {
     // Se ele já visitou, pulamos SÓ o preloader preto inicial, mas preservamos o Zoom e Scanner (isLoaded = true vai ocultar o <Preloader /> do CSS via fallback 'loaded')
     const isLoadedInitial = skipAllAnimations || Boolean(hasVisited);
 
-    const [isLoaded, setIsLoaded] = useState<boolean>(isLoadedInitial);
+    const [isLoaded, setIsLoaded] = useState<boolean>(skipAllAnimations);
     const [animationsDone, setAnimationsDone] = useState<boolean>(skipAllAnimations);
     const [isMobile, setIsMobile] = useState(isMobileOrTablet);
+
+    // Ocultar o Preloader (SVG/Percent) fisicamente caso ele já tenha visitado.
+    const showPreloader = !isLoadedInitial;
 
     useEffect(() => {
         if (!hasVisited && typeof window !== 'undefined') {
@@ -90,9 +93,14 @@ const Home = () => {
         }
 
         if (isLoadedInitial) {
-            // Ele já visitou o site. A tela preta (Preloader) já não existe. 
-            // Precisamos esperar apenas o Zoom + Scanner (hero-emergence CSS) acabar. Em CSS isso dura 3.6s.
+            // Ele já visitou o site. O <Preloader> (tela 0 a 100%) nem foi renderizado.
+            // Aqui damos um pequeno delay de 50ms para que a tag `.loaded` seja inserida apenas *depois* do monte inicial.
+            // Isso FORÇA o CSS a rodar a Transição de scale(1.1) para 1 e opacity 0 para 1, dando a animação de Zoom que o cliente ama.
             document.body.classList.remove('loading-locked');
+            loadTimer = setTimeout(() => {
+                setIsLoaded(true);
+            }, 50);
+
             cleanupTimer = setTimeout(() => {
                 setAnimationsDone(true);
                 setTimeout(() => { ScrollTrigger.refresh(); }, 100);
@@ -161,7 +169,7 @@ const Home = () => {
 
     return (
         <div className={`app-container ${isLoaded ? 'loaded' : ''} ${animationsDone ? 'effects-cleared' : ''}`}>
-            <Preloader />
+            {showPreloader && <Preloader />}
             <div id="canvas-portal-root" className="fixed inset-0 pointer-events-none z-[1]" />
 
             <ScrollWrapper>
