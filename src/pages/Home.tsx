@@ -160,7 +160,7 @@ const Home = () => {
                 <HeroTransitionWrapper />
                 <div id="main-content" className="relative bg-black min-h-screen text-white font-sans">
                     <AboutSection />
-                    <ServicesSection enable3D={animationsDone} />
+                    <ServicesSection />
                     <Suspense fallback={<div className="min-h-screen bg-black" />}>
                         <ProjectsSection />
                         <ProcessSection />

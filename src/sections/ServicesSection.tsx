@@ -229,12 +229,13 @@ const ServiceCardDesktop = ({
 };
 
 // --- COMPONENTE PRINCIPAL ---
-const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
+const ServicesSection = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const cardsContainerDesktopRef = useRef<HTMLDivElement>(null);
     const desktopCardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
     const [isDesktop, setIsDesktop] = useState(false);
+    const [shouldLoad3D, setShouldLoad3D] = useState(false);
 
     useEffect(() => {
         const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
@@ -245,6 +246,12 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
 
     return (
         <div ref={containerRef} id="servicos" className="relative w-full bg-[#050505]">
+            {/* Invisível, serve apenas para iniciar o carregamento do 3D 1500px antes de chegar na seção */}
+            <motion.div 
+                className="absolute top-0 left-0 w-full h-[1px] pointer-events-none" 
+                onViewportEnter={() => setShouldLoad3D(true)} 
+                viewport={{ once: true, margin: '1500px' }} 
+            />
             <section className="min-h-[40vh] flex flex-col justify-center pt-32 pb-0 relative z-10">
                 <Container>
                     <motion.div
@@ -269,8 +276,8 @@ const ServicesSection = ({ enable3D = true }: { enable3D?: boolean }) => {
 
             <div className="relative w-full">
                 <div className="hidden lg:block sticky top-0 w-full h-screen pointer-events-none z-0">
-                    {/* Renderiza o 3D *dinamicamente* apenas no Desktop. Isso arranca quase 1MB da rede Movel */}
-                    {isDesktop && enable3D && (
+                    {/* Renderiza o 3D *dinamicamente* apenas no Desktop usando Lazy Load */}
+                    {isDesktop && shouldLoad3D && (
                         <Suspense fallback={null}>
                             <Services3DScene 
                                 containerRef={containerRef} 
