@@ -825,6 +825,12 @@ body {
   will-change: transform, filter;
 }
 
+.fast-emergence .hero-emergence-wrapper {
+  transition:
+    transform 2.0s cubic-bezier(0.19, 1, 0.22, 1) 0s,
+    filter 1.5s ease-out 0s;
+}
+
 .loaded .hero-emergence-wrapper {
   transform: scale(1);
   filter: brightness(1);
@@ -847,6 +853,14 @@ body {
 
 .loaded .delay-sync-2 {
   animation-delay: 1.7s;
+}
+
+.fast-emergence.loaded .delay-sync-1 {
+  animation-delay: 0s;
+}
+
+.fast-emergence.loaded .delay-sync-2 {
+  animation-delay: 0.2s;
 }
 
 .loaded .delay-sync-3 {

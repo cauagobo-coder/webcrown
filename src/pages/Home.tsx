@@ -168,7 +168,7 @@ const Home = () => {
     }, []);
 
     return (
-        <div className={`app-container ${isLoaded ? 'loaded' : ''} ${animationsDone ? 'effects-cleared' : ''}`}>
+        <div className={`app-container ${isLoaded ? 'loaded' : ''} ${animationsDone ? 'effects-cleared' : ''} ${!showPreloader ? 'fast-emergence' : ''}`}>
             {showPreloader && <Preloader />}
             <div id="canvas-portal-root" className="fixed inset-0 pointer-events-none z-[1]" />
 
