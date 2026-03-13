@@ -41,8 +41,7 @@ const LenisScrollSync = () => {
 const Home = () => {
     const location = useLocation();
     
-    // Checa se o usuário já passou pelo loading inicial nesta sessão para evitar quebras do React/GSAP ao usar o botão 'Voltar'
-    const hasVisited = typeof window !== 'undefined' ? sessionStorage.getItem('webcrown_visited') : null;
+    const [hasVisitedInitial] = useState(() => typeof window !== 'undefined' ? sessionStorage.getItem('webcrown_visited') : null);
     
     // Identifica se a URL contém um "#" apontando ativamente para uma seção (Navegação direta)
     const hasHashTarget = Boolean(location.hash);
@@ -50,21 +49,21 @@ const Home = () => {
     // Se estiver navegando via Hash, pulamos todas as animações imediatamente para o scroll acontecer.
     const skipAllAnimations = hasHashTarget;
     // Se ele já visitou, pulamos SÓ o preloader preto inicial, mas preservamos o Zoom e Scanner (isLoaded = true vai ocultar o <Preloader /> do CSS via fallback 'loaded')
-    const isLoadedInitial = skipAllAnimations || Boolean(hasVisited);
+    const isLoadedInitial = skipAllAnimations || Boolean(hasVisitedInitial);
 
     const [isLoaded, setIsLoaded] = useState<boolean>(skipAllAnimations);
     const [animationsDone, setAnimationsDone] = useState<boolean>(skipAllAnimations);
     const [isMobile, setIsMobile] = useState(isMobileOrTablet);
 
-    // Ocultar o Preloader (SVG/Percent) fisicamente caso ele já tenha visitado.
+    // Ocultar o Preloader (SVG/Percent) fisicamente caso ele já tenha visitado na sessão (valor fixado do primeiro mount).
     const showPreloader = !isLoadedInitial;
 
     useEffect(() => {
-        if (!hasVisited && typeof window !== 'undefined') {
+        if (!hasVisitedInitial && typeof window !== 'undefined') {
             // Marca a sessão para que retornos (botão Back) de projetos ou links não re-ativem os timers visuais do PRELOADER
             sessionStorage.setItem('webcrown_visited', 'true');
         }
-    }, [hasVisited]);
+    }, [hasVisitedInitial]);
 
     useEffect(() => {
         // Prevent browser from trying to guess the scroll position before GSAP pins are ready
