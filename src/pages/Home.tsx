@@ -44,19 +44,21 @@ const Home = () => {
     // Checa se o usuário já passou pelo loading inicial nesta sessão para evitar quebras do React/GSAP ao usar o botão 'Voltar'
     const hasVisited = typeof window !== 'undefined' ? sessionStorage.getItem('webcrown_visited') : null;
     
-    // Identifica se a URL contém um "#" apontando ativamente para uma seção
+    // Identifica se a URL contém um "#" apontando ativamente para uma seção (Navegação direta)
     const hasHashTarget = Boolean(location.hash);
 
-    // O preloader deve ser pulado SE for uma navegação direta de seção (#) OU se ele já visitou o site na sessão
-    const skipPreloader = hasHashTarget || Boolean(hasVisited);
+    // Se estiver navegando via Hash, pulamos todas as animações imediatamente para o scroll acontecer.
+    const skipAllAnimations = hasHashTarget;
+    // Se ele já visitou, pulamos SÓ o preloader preto inicial, mas preservamos o Zoom e Scanner (isLoaded = true vai ocultar o <Preloader /> do CSS via fallback 'loaded')
+    const isLoadedInitial = skipAllAnimations || Boolean(hasVisited);
 
-    const [isLoaded, setIsLoaded] = useState<boolean>(skipPreloader);
-    const [animationsDone, setAnimationsDone] = useState<boolean>(skipPreloader);
+    const [isLoaded, setIsLoaded] = useState<boolean>(isLoadedInitial);
+    const [animationsDone, setAnimationsDone] = useState<boolean>(skipAllAnimations);
     const [isMobile, setIsMobile] = useState(isMobileOrTablet);
 
     useEffect(() => {
         if (!hasVisited && typeof window !== 'undefined') {
-            // Marca a sessão para que retornos (botão Back) de projetos ou links não re-ativem os timers visuais
+            // Marca a sessão para que retornos (botão Back) de projetos ou links não re-ativem os timers visuais do PRELOADER
             sessionStorage.setItem('webcrown_visited', 'true');
         }
     }, [hasVisited]);
@@ -68,7 +70,6 @@ const Home = () => {
         }
         
         // APENAS rola pro topo (0,0) se NÃO houver um HASH direcionador na URL.
-        // O F5 (reload) na Home roda sem HASH, então cairá aqui e voltará ao Topo.
         if (!hasHashTarget) {
             window.scrollTo(0, 0);
         }
@@ -79,29 +80,43 @@ const Home = () => {
     }, [hasHashTarget]);
 
     useEffect(() => {
-        if (skipPreloader) {
+        let loadTimer: ReturnType<typeof setTimeout>;
+        let cleanupTimer: ReturnType<typeof setTimeout>;
+
+        if (skipAllAnimations) {
             document.body.classList.remove('loading-locked');
             setTimeout(() => { ScrollTrigger.refresh(); }, 150);
             return;
         }
 
-        document.body.classList.add('loading-locked');
-        const loadTimer = setTimeout(() => {
-            setIsLoaded(true);
-            setTimeout(() => { document.body.classList.remove('loading-locked'); }, 2500);
-        }, 3400);
+        if (isLoadedInitial) {
+            // Ele já visitou o site. A tela preta (Preloader) já não existe. 
+            // Precisamos esperar apenas o Zoom + Scanner (hero-emergence CSS) acabar. Em CSS isso dura 3.6s.
+            document.body.classList.remove('loading-locked');
+            cleanupTimer = setTimeout(() => {
+                setAnimationsDone(true);
+                setTimeout(() => { ScrollTrigger.refresh(); }, 100);
+            }, 3600);
+        } else {
+            // Primeira Visita: Roda os 3.4s do Preloader, e depois mais o longo tempo do Zoom e Scanner
+            document.body.classList.add('loading-locked');
+            loadTimer = setTimeout(() => {
+                setIsLoaded(true);
+                setTimeout(() => { document.body.classList.remove('loading-locked'); }, 2500);
+            }, 3400);
 
-        const cleanupTimer = setTimeout(() => {
-            setAnimationsDone(true);
-            setTimeout(() => { ScrollTrigger.refresh(); }, 100);
-        }, 8800);
+            cleanupTimer = setTimeout(() => {
+                setAnimationsDone(true);
+                setTimeout(() => { ScrollTrigger.refresh(); }, 100);
+            }, 8800);
+        }
 
         return () => {
             clearTimeout(loadTimer);
             clearTimeout(cleanupTimer);
             document.body.classList.remove('loading-locked');
         };
-    }, [skipPreloader]);
+    }, [skipAllAnimations, isLoadedInitial]);
 
     // Check for hash and scroll to it ONLY after all GSAP layouts and pins are fully refreshed
     useEffect(() => {
