@@ -88,6 +88,13 @@
   }
 }
 
+/* Esconder o cursor padrão apenas em dispositivos com mouse (desktop) */
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
 @layer utilities {
 
   /* --- PRIMÁRIO: Gold Neon --- */
