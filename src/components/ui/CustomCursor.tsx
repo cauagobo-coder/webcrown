@@ -1,33 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 const CustomCursor: React.FC = () => {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    // Valores numéricos limpos (não engatilham re-render do React no movimento)
+    const cursorX = useMotionValue(-100);
+    const cursorY = useMotionValue(-100);
+
+    // Mola ultrarrápida: alta tração, baixa massa = 0 latência, mas ainda fluido
+    const springConfig = { damping: 40, stiffness: 3000, mass: 0.02 };
+    const x = useSpring(cursorX, springConfig);
+    const y = useSpring(cursorY, springConfig);
+
     const [isHovering, setIsHovering] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+    const [isDesktop, setIsDesktop] = useState(true);
 
     useEffect(() => {
-        // Apenas roda se tiver ponteiro fino (mouse/trackpad), ignora mobile totalmente
         const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+        setIsDesktop(hasFinePointer);
         if (!hasFinePointer) return;
 
         const handleMouseMove = (e: MouseEvent) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
+            // A Div original tem 48px fixos absolutos.
+            // Para o centro bater exatamente na ponta do mouse, subtraímos a metade (24px).
+            cursorX.set(e.clientX - 24);
+            cursorY.set(e.clientY - 24);
             if (!isVisible) setIsVisible(true);
         };
 
-        const handleMouseLeave = () => {
-            setIsVisible(false); // Oculta o cursor quando sai da janela do navegador
-        };
+        const handleMouseLeave = () => setIsVisible(false);
+        const handleMouseEnter = () => setIsVisible(true);
 
-        const handleMouseEnter = () => {
-            setIsVisible(true);
-        };
-
-        // Detectar se está sobre algo clicável para expandir o cursor
         const handleInteractionStart = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            // Verifica se o alvo ou pai é um elemento interativo
             if (
                 target.tagName.toLowerCase() === 'a' ||
                 target.tagName.toLowerCase() === 'button' ||
@@ -41,35 +46,32 @@ const CustomCursor: React.FC = () => {
             }
         };
 
-        window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mousemove', handleInteractionStart);
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
+        window.addEventListener('mouseover', handleInteractionStart, { passive: true });
         document.addEventListener('mouseleave', handleMouseLeave);
         document.addEventListener('mouseenter', handleMouseEnter);
 
+        // Forçar cursor na primeira entrada
+        setIsVisible(true);
+
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mousemove', handleInteractionStart);
+            window.removeEventListener('mouseover', handleInteractionStart);
             document.removeEventListener('mouseleave', handleMouseLeave);
             document.removeEventListener('mouseenter', handleMouseEnter);
         };
-    }, [isVisible]);
+    }, [isVisible, cursorX, cursorY]);
 
-    // Ocultar em dispositivos touch
-    if (!window.matchMedia('(pointer: fine)').matches) {
-        return null;
-    }
+    if (!isDesktop) return null;
 
-    // Variantes de tamanho e estado pro Framer Motion
-    const cursorVariants = {
+    // Apenas animamos escala e opacidade via React (são processadas na Placa de Vídeo - GPU)
+    // O eixo X e Y é injetado diretamente pelo hook "x" e "y" para bypassar o React e o CPU
+    const variants = {
         default: {
-            x: mousePosition.x - 12, // Centraliza no mouse (24/2)
-            y: mousePosition.y - 12,
-            scale: 1,
+            scale: 0.5,
             opacity: isVisible ? 1 : 0
         },
         hover: {
-            x: mousePosition.x - 24, // Centraliza no mouse (48/2)
-            y: mousePosition.y - 24,
             scale: 1,
             opacity: isVisible ? 1 : 0
         }
@@ -78,27 +80,26 @@ const CustomCursor: React.FC = () => {
     return (
         <motion.div
             className="fixed top-0 left-0 pointer-events-none z-[999999]"
-            variants={cursorVariants}
+            variants={variants}
             animate={isHovering ? "hover" : "default"}
             initial="default"
-            // Transição instantânea nas coordenadas X e Y para remover o "lag"
-            transition={{
-                x: { type: "spring", stiffness: 2000, damping: 100, mass: 0.05 },
-                y: { type: "spring", stiffness: 2000, damping: 100, mass: 0.05 },
-                opacity: { duration: 0.2 }
-            }}
+            // Ligamos o Style diretamente aos MotionValues (isso ignora os Re-renders de react pro mouse)
             style={{
-                width: isHovering ? 48 : 24,
-                height: isHovering ? 48 : 24,
-                // Cores bem mais visíveis e vibrantes
+                x, 
+                y,
+                width: 48,
+                height: 48,
                 backgroundColor: isHovering ? 'rgba(245, 138, 7, 0.25)' : 'rgba(255, 255, 255, 0.15)',
                 backdropFilter: 'blur(8px)',
                 WebkitBackdropFilter: 'blur(8px)',
                 border: isHovering ? '2px solid rgba(245, 138, 7, 0.8)' : '1px solid rgba(255, 255, 255, 0.6)',
                 borderRadius: '50%',
                 boxShadow: isHovering ? '0 0 30px rgba(245, 138, 7, 0.4)' : '0 4px 12px rgba(0,0,0,0.1)',
-                // Transição suave apenas para tamanho e cor, não para a posição
-                transition: 'width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease'
+                transition: 'background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease'
+            }}
+            transition={{
+                scale: { type: "spring", stiffness: 400, damping: 25 },
+                opacity: { duration: 0.2 }
             }}
         />
     );
