@@ -243,6 +243,7 @@
     border-radius: 12px;
     z-index: 10;
     box-shadow: inset 0 1px 0 rgba(245, 138, 7, 0.2);
+    transform: translateZ(-10px);
   }
 
   /* Aba da pasta */
@@ -271,6 +272,7 @@
     z-index: 20;
     transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform-origin: bottom center;
+    transform: translateZ(0px);
     box-shadow: 0 -2px 5px rgba(245, 138, 7, 0.1);
     background-image: linear-gradient(#f1e6cc 1px, transparent 1px);
     background-size: 100% 20px;
@@ -301,6 +303,7 @@
     border-radius: 0 0 12px 12px;
     z-index: 40;
     transform-origin: bottom;
+    transform: translateZ(20px);
     transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
     border-top: 1px solid rgba(245, 138, 7, 0.3);
     border-bottom: 1px solid rgba(0, 0, 0, 0.5);
@@ -323,23 +326,23 @@
 
   /* Hover: vidro fica mais claro/vibrante */
   .folder-wrapper:hover .folder-front {
-    transform: rotateX(-10deg);
+    transform: rotateX(-10deg) translateZ(20px);
     background: rgba(245, 138, 7, 0.45);
     /* Laranja mais aceso na paleta web crown */
     box-shadow: 0 0 25px rgba(245, 138, 7, 0.15);
   }
 
   .folder-wrapper:hover .paper {
-    transform: translateY(-8px);
+    transform: translateY(-8px) translateZ(0px);
   }
 
   /* Active: abrir */
   .folder-wrapper.active .folder-front {
-    transform: rotateX(-40deg);
+    transform: rotateX(-40deg) translateZ(20px);
   }
 
   .folder-wrapper.active .paper {
-    transform: translateY(-20px) scale(0.96);
+    transform: translateY(-20px) scale(0.96) translateZ(0px);
   }
 
   /* Imagens flutuantes */
@@ -359,7 +362,7 @@
     justify-content: center;
     opacity: 0;
     z-index: 30;
-    transform: translate(-50%, 30%) scale(0.5);
+    transform: translate(-50%, 30%) scale(0.5) translateZ(10px);
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     cursor: pointer;
   }
@@ -374,19 +377,19 @@
   /* Posições ativas */
   .folder-wrapper.active .nav-item:nth-child(1) {
     opacity: 1;
-    transform: translate(-240%, -180%) scale(1) rotate(-10deg);
+    transform: translate(-240%, -180%) scale(1) rotate(-10deg) translateZ(40px);
     transition-delay: 0.05s;
   }
 
   .folder-wrapper.active .nav-item:nth-child(2) {
     opacity: 1;
-    transform: translate(-50%, -240%) scale(1);
+    transform: translate(-50%, -240%) scale(1) translateZ(40px);
     transition-delay: 0.1s;
   }
 
   .folder-wrapper.active .nav-item:nth-child(3) {
     opacity: 1;
-    transform: translate(140%, -180%) scale(1) rotate(10deg);
+    transform: translate(140%, -180%) scale(1) rotate(10deg) translateZ(40px);
     transition-delay: 0.15s;
   }
 
@@ -403,15 +406,15 @@
 
   /* Hover mantendo posição */
   .folder-wrapper.active .nav-item:nth-child(1):hover {
-    transform: translate(-240%, -180%) scale(1.15) rotate(-10deg);
+    transform: translate(-240%, -180%) scale(1.15) rotate(-10deg) translateZ(50px);
   }
 
   .folder-wrapper.active .nav-item:nth-child(2):hover {
-    transform: translate(-50%, -240%) scale(1.15);
+    transform: translate(-50%, -240%) scale(1.15) translateZ(50px);
   }
 
   .folder-wrapper.active .nav-item:nth-child(3):hover {
-    transform: translate(140%, -180%) scale(1.15) rotate(10deg);
+    transform: translate(140%, -180%) scale(1.15) rotate(10deg) translateZ(50px);
   }
 
   /* Label tooltip */
