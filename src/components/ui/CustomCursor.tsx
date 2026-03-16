@@ -60,18 +60,17 @@ const CustomCursor: React.FC = () => {
     }
 
     // Variantes de tamanho e estado pro Framer Motion
-    // Mantemos `spring` para reagir super rápido mas de forma fluída ("snappy")
     const cursorVariants = {
         default: {
-            x: mousePosition.x - 12, // Subtrai a metade da largura (24px)
-            y: mousePosition.y - 12, // Subtrai a metade da altura
+            x: mousePosition.x - 12, // Centraliza no mouse (24/2)
+            y: mousePosition.y - 12,
             scale: 1,
             opacity: isVisible ? 1 : 0
         },
         hover: {
-            x: mousePosition.x - 24, // Tamanho final do hover é 48px, então subtrai 24px
+            x: mousePosition.x - 24, // Centraliza no mouse (48/2)
             y: mousePosition.y - 24,
-            scale: 1, // Não usar scale direto aqui se estamos mudando Width, senão distorce
+            scale: 1,
             opacity: isVisible ? 1 : 0
         }
     };
@@ -82,23 +81,24 @@ const CustomCursor: React.FC = () => {
             variants={cursorVariants}
             animate={isHovering ? "hover" : "default"}
             initial="default"
+            // Transição instantânea nas coordenadas X e Y para remover o "lag"
             transition={{
-                type: "spring",
-                stiffness: 800,
-                damping: 40,
-                mass: 0.1
+                x: { type: "spring", stiffness: 2000, damping: 100, mass: 0.05 },
+                y: { type: "spring", stiffness: 2000, damping: 100, mass: 0.05 },
+                opacity: { duration: 0.2 }
             }}
             style={{
                 width: isHovering ? 48 : 24,
                 height: isHovering ? 48 : 24,
-                backgroundColor: isHovering ? 'rgba(245, 138, 7, 0.1)' : 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(4px)',
-                WebkitBackdropFilter: 'blur(4px)',
-                border: isHovering ? '1px solid rgba(245, 138, 7, 0.4)' : '1px solid rgba(255, 255, 255, 0.2)',
+                // Cores bem mais visíveis e vibrantes
+                backgroundColor: isHovering ? 'rgba(245, 138, 7, 0.25)' : 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                border: isHovering ? '2px solid rgba(245, 138, 7, 0.8)' : '1px solid rgba(255, 255, 255, 0.6)',
                 borderRadius: '50%',
-                boxShadow: isHovering ? '0 0 20px rgba(245, 138, 7, 0.2)' : 'none',
-                // A transição no style complementa as físicas do spring nas coordenadas
-                transition: 'width 0.2s ease-out, height 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out'
+                boxShadow: isHovering ? '0 0 30px rgba(245, 138, 7, 0.4)' : '0 4px 12px rgba(0,0,0,0.1)',
+                // Transição suave apenas para tamanho e cor, não para a posição
+                transition: 'width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease'
             }}
         />
     );
