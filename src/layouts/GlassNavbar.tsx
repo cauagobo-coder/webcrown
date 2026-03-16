@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Home, User, Briefcase, FolderOpen, Cog, HelpCircle, LucideIcon } from 'lucide-react';
 import { useLenis } from '@studio-freight/react-lenis';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // 1. Definição da Interface para os itens de navegação
 interface NavItem {
@@ -126,11 +127,20 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
 
     // Instância do Lenis para rolagem sincronizada com a engine
     const lenis = useLenis(() => {}, []);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string, name: string) => {
         e.preventDefault();
         setActiveTab(name);
 
+        // Se não estamos na Home, precisamos navegar para a Home e passar o Hash desejado
+        if (location.pathname !== '/') {
+            navigate('/' + url);
+            return;
+        }
+
+        // Fluxo normal estando na Home:
         // "Início" deve levar ao topo absoluto da página (a Hero fica dentro de um wrapper de 300vh)
         if (url === '#hero') {
             if (lenis) {
