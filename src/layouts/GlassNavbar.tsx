@@ -66,25 +66,42 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
         calculateActiveSection();
     }, []);
 
-    // Mobile fallback: native scroll listener (when Lenis is disabled)
+    // Fallback unificado: IntersectionObserver para Mobile (mais confiável que o event scroll no Safari)
     useEffect(() => {
         const isMobile = window.innerWidth < 1024;
         if (!isMobile) return;
 
-        let ticking = false;
-        const handleScroll = () => {
-            if (!ticking) {
-                ticking = true;
-                requestAnimationFrame(() => {
-                    calculateActiveSection();
-                    ticking = false;
-                });
-            }
+        // Popula cache se vazio
+        if (sectionsRef.current.length === 0) {
+            sectionsRef.current = navItems.map(item => document.querySelector(item.url) as HTMLElement | null);
+        }
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-30% 0px -60% 0px', // Aciona quando a div cruza os 30% do topo
+            threshold: 0
         };
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+        const observerCallback: IntersectionObserverCallback = (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = '#' + entry.target.id;
+                    const matchedItem = navItems.find(item => item.url === id);
+                    if (matchedItem) {
+                        setActiveTab(matchedItem.name);
+                    }
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        sectionsRef.current.forEach(section => {
+            if (section) observer.observe(section);
+        });
+
+        return () => observer.disconnect();
+    }, [isLoaded]);
 
     // Executa verificação inicial ao montar e recarrega cache no resize
     useEffect(() => {
