@@ -21,7 +21,7 @@ const navItems: NavItem[] = [
 ];
 
 const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
-    const [activeTab, setActiveTab] = useState<string>(navItems[0].name);
+    const [activeTab, setActiveTab] = useState<string>(''); // Começa vazio para não animar no load
 
     const sectionsRef = useRef<(HTMLElement | null)[]>([]);
 
@@ -58,17 +58,25 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
 
         let currentSection = null;
 
-        sectionsRef.current.forEach((section, index) => {
+        // Corre de trás pra frente para pegar fisicamente a seção atual sendo lida
+        for (let i = sectionsRef.current.length - 1; i >= 0; i--) {
+            const section = sectionsRef.current[i];
             if (section) {
                 const rect = section.getBoundingClientRect();
+                // A seção engolfa o ponto de trigger?
                 if (rect.top <= triggerPoint && rect.bottom > triggerPoint) {
-                    currentSection = navItems[index].name;
+                    currentSection = navItems[i].name;
+                    break;
                 }
             }
-        });
+        }
 
+        // Se encontrou uma seção atual e ela é diferente da ativa, muda o estado.
+        // Se ainda não tiver tab ativa (load), obriga a ligar na primeira se não achar nada
         if (currentSection) {
-            setActiveTab(currentSection);
+            setActiveTab(prev => prev !== currentSection ? currentSection : prev);
+        } else {
+            setActiveTab(prev => prev === '' ? navItems[0].name : prev);
         }
     };
 
