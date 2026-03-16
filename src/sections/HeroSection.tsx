@@ -23,26 +23,32 @@ const useVideoBase = () => {
 const HeroSection = () => {
     const base = useVideoBase();
     const lenis = useLenis(() => {}, []);
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const sourceRef = useRef<HTMLSourceElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-
     const play = useCallback(() => {
-        const v = videoRef.current;
+        const wrapper = containerRef.current;
+        if (!wrapper) return;
+        const v = wrapper.querySelector('video');
         if (!v) return;
         v.defaultMuted = true;
         v.muted = true;
         v.play().catch(() => {/* silencioso */ });
     }, []);
 
-    // Troca a source sem recriar o elemento <video>
+    // Troca a source manualmente, já que o innerHTML é não-reativo depois de montado para o video
     useEffect(() => {
-        const v = videoRef.current;
-        const src = sourceRef.current;
+        const wrapper = containerRef.current;
+        if (!wrapper) return;
+        const v = wrapper.querySelector('video');
+        const src = wrapper.querySelector('source');
         if (!v || !src) return;
+        
         src.src = `/videos/${base}.mp4`;
         v.load();
-        play();
+        
+        // Timeout para garantir que o load iniciou antes do play no iOS
+        setTimeout(() => {
+            play();
+        }, 50);
     }, [base, play]);
 
     // Força play na montagem e em qualquer toque (para garantir autoplay no iOS/Safari)
@@ -155,22 +161,26 @@ const HeroSection = () => {
             ref={containerRef}
         >
             <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
-                <video
-                    ref={videoRef}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    {...({ fetchpriority: 'high' } as any)}
-                    preload="metadata"
-                    controls={false}
-                    disablePictureInPicture
-                    disableRemotePlayback
-                    className="w-full h-full object-cover"
-                    style={{ pointerEvents: 'none' }}
-                >
-                    <source ref={sourceRef} src={`/videos/${base}.mp4`} type="video/mp4" />
-                </video>
+                {/* Workaround crítico para iOS Safari: React às vezes falha ao aplicar playsInline corretamente no mount. Usando dangerouslySetInnerHTML garante que o HTML nativo seja parseado pelo WebKit com os atributos corretos antes do React assumir. */}
+                <div
+                    className="absolute inset-0 w-full h-full z-0 pointer-events-none"
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                        <video 
+                            autoplay 
+                            loop 
+                            muted 
+                            playsinline 
+                            webkit-playsinline="true"
+                            preload="auto"
+                            class="w-full h-full object-cover"
+                            style="pointer-events: none;"
+                        >
+                            <source src="/videos/${base}.mp4" type="video/mp4" />
+                        </video>
+                    `
+                    }}
+                />
             </div>
 
             {/* Fade para legibilidade do texto no mobile */}
