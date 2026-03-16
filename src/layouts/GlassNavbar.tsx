@@ -24,71 +24,88 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
 
     const sectionsRef = useRef<(HTMLElement | null)[]>([]);
 
-    // Função lógica otimizada para definir a seção ativa
-    const calculateActiveSection = () => {
-        const viewportHeight = window.innerHeight;
-        // Trigger mais cedo: topo 30% (0.3) da tela
-        // Isso faz a troca acontecer assim que a nova seção ocupa o terço superior
-        const triggerPoint = viewportHeight * 0.3;
-
-        // Se não tivermos elementos cacheados ou se redimensionou, recarrega
-        if (sectionsRef.current.length === 0 || sectionsRef.current.length !== navItems.length) {
-            sectionsRef.current = navItems.map(item => document.querySelector(item.url) as HTMLElement | null);
+    // Helper para tentar recarregar itens nulos do DOM
+    const tryRecacheSections = (): boolean => {
+        let hasChanges = false;
+        
+        // Inicializa o array se for a primeira vez
+        if (sectionsRef.current.length !== navItems.length) {
+            sectionsRef.current = new Array(navItems.length).fill(null);
+            hasChanges = true;
         }
 
-        // Inicia como null para manter o estado anterior se nada for encontrado
+        // Tenta preencher os buracos (itens que ainda não carregaram pelo Lazy)
+        navItems.forEach((item, index) => {
+            if (!sectionsRef.current[index]) {
+                const el = document.querySelector(item.url) as HTMLElement | null;
+                if (el) {
+                    sectionsRef.current[index] = el;
+                    hasChanges = true;
+                }
+            }
+        });
+        
+        return hasChanges;
+    };
+
+    // Função lógica otimizada para definir a seção ativa (Desktop via Lenis)
+    const calculateActiveSectionDesktop = () => {
+        const viewportHeight = window.innerHeight;
+        const triggerPoint = viewportHeight * 0.3;
+
+        tryRecacheSections();
+
         let currentSection = null;
 
         sectionsRef.current.forEach((section, index) => {
             if (section) {
                 const rect = section.getBoundingClientRect();
-                // Verifica se a seção cruza a linha de 30% do topo
                 if (rect.top <= triggerPoint && rect.bottom > triggerPoint) {
                     currentSection = navItems[index].name;
                 }
             }
         });
 
-        // Só atualiza se encontrar uma seção válida
         if (currentSection) {
             setActiveTab(currentSection);
         }
     };
 
-    // Scroll Spy Logic — uses Lenis callback on desktop, native scroll listener on mobile
     const lastCalcRef = useRef<number>(0);
 
-    // Desktop: Lenis callback (this is a no-op when Lenis is not mounted)
+    // Desktop: Lenis callback (this is a no-op when Lenis is disabled/mobile)
     useLenis(() => {
         const now = Date.now();
         if (now - lastCalcRef.current < 100) return;
         lastCalcRef.current = now;
-        calculateActiveSection();
+        calculateActiveSectionDesktop();
     }, []);
 
-    // Fallback unificado: IntersectionObserver para Mobile (mais confiável que o event scroll no Safari)
+    // Fallback unificado: IntersectionObserver para Mobile
     useEffect(() => {
         const isMobile = window.innerWidth < 1024;
         if (!isMobile) return;
 
-        // Popula cache se vazio
-        if (sectionsRef.current.length === 0) {
-            sectionsRef.current = navItems.map(item => document.querySelector(item.url) as HTMLElement | null);
-        }
-
         const observerOptions = {
             root: null,
-            rootMargin: '-30% 0px -60% 0px', // Aciona quando a div cruza os 30% do topo
+            rootMargin: '-30% 0px -60% 0px',
             threshold: 0
         };
 
         const observerCallback: IntersectionObserverCallback = (entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const id = '#' + entry.target.id;
-                    const matchedItem = navItems.find(item => item.url === id);
-                    if (matchedItem) {
-                        setActiveTab(matchedItem.name);
+                    let matchedName = null;
+                    
+                    // Procuramos por ID exato para cruzar referências
+                    const sectionId = entry.target.id;
+                    if (sectionId) {
+                        const matchedItem = navItems.find(item => item.url === `#${sectionId}`);
+                        if (matchedItem) matchedName = matchedItem.name;
+                    }
+                    
+                    if (matchedName) {
+                        setActiveTab(matchedName);
                     }
                 }
             });
@@ -96,29 +113,56 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
 
         const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-        sectionsRef.current.forEach(section => {
-            if (section) observer.observe(section);
-        });
+        // Sistema de Polling Inteligente para lidar com Lazy Loading
+        // Se a página de Home voltar do ProjectView, a parte inferior vai demorar para renderizar
+        let retryInterval: ReturnType<typeof setInterval>;
+        let attempts = 0;
 
-        return () => observer.disconnect();
+        const attachObservers = () => {
+            tryRecacheSections();
+            
+            // Re-anexa observadores aos alvos vivos (Observer ignora duplo observe silenciosamente)
+            sectionsRef.current.forEach(section => {
+                if (section) observer.observe(section);
+            });
+
+            const allFound = sectionsRef.current.every(s => s !== null);
+            
+            // Se achou tudo ou tentou 20 vezes (10segundos, talvez a pagina falhou)
+            if (allFound || attempts >= 20) {
+                clearInterval(retryInterval);
+            }
+            
+            attempts++;
+        };
+
+        // Roda a primeira tentativa
+        attachObservers();
+        
+        // Se não achou todos de primeira, começa o ping pong
+        if (sectionsRef.current.some(s => s === null)) {
+            retryInterval = setInterval(attachObservers, 500);
+        }
+
+        return () => {
+            clearInterval(retryInterval);
+            observer.disconnect();
+        };
     }, [isLoaded]);
 
-    // Executa verificação inicial ao montar e recarrega cache no resize
+    // Lida apenas com recarregamentos pesados de estrutura (Resize de Tela)
     useEffect(() => {
-        // Popula cache inicial
-        sectionsRef.current = navItems.map(item => document.querySelector(item.url) as HTMLElement | null);
-
-        calculateActiveSection();
-
-        // Debounced resize — batches rapid resize events
         let resizeTimer: ReturnType<typeof setTimeout>;
         const handleResize = () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
-                // Recache sections (layout may have changed)
-                sectionsRef.current = navItems.map(item => document.querySelector(item.url) as HTMLElement | null);
-                calculateActiveSection();
-            }, 200);
+                // Força um rescan destrutivo
+                sectionsRef.current = [];
+                tryRecacheSections();
+                if (window.innerWidth >= 1024) {
+                    calculateActiveSectionDesktop();
+                }
+            }, 300);
         };
 
         window.addEventListener('resize', handleResize);
@@ -126,7 +170,7 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
             window.removeEventListener('resize', handleResize);
             clearTimeout(resizeTimer);
         };
-    }, [isLoaded]); // Dependência de isLoaded ajuda a recalcular se o layout mudar pós-load
+    }, [isLoaded]);
 
     // Instância do Lenis para rolagem sincronizada com a engine
     const lenis = useLenis(() => {}, []);
