@@ -48,8 +48,8 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
         return hasChanges;
     };
 
-    // Função lógica otimizada para definir a seção ativa (Desktop via Lenis)
-    const calculateActiveSectionDesktop = () => {
+    // Função lógica otimizada para definir a seção ativa (Universal)
+    const calculateActiveSection = () => {
         const viewportHeight = window.innerHeight;
         const triggerPoint = viewportHeight * 0.3;
 
@@ -78,76 +78,30 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
         const now = Date.now();
         if (now - lastCalcRef.current < 100) return;
         lastCalcRef.current = now;
-        calculateActiveSectionDesktop();
+        calculateActiveSection();
     }, []);
 
-    // Fallback unificado: IntersectionObserver para Mobile
+    // Mobile fallback: native scroll listener para quando o Lenis estiver desligado
     useEffect(() => {
         const isMobile = window.innerWidth < 1024;
         if (!isMobile) return;
 
-        const observerOptions = {
-            root: null,
-            rootMargin: '-30% 0px -60% 0px',
-            threshold: 0
-        };
-
-        const observerCallback: IntersectionObserverCallback = (entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    let matchedName = null;
-                    
-                    // Procuramos por ID exato para cruzar referências
-                    const sectionId = entry.target.id;
-                    if (sectionId) {
-                        const matchedItem = navItems.find(item => item.url === `#${sectionId}`);
-                        if (matchedItem) matchedName = matchedItem.name;
-                    }
-                    
-                    if (matchedName) {
-                        setActiveTab(matchedName);
-                    }
-                }
-            });
-        };
-
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-        // Sistema de Polling Inteligente para lidar com Lazy Loading
-        // Se a página de Home voltar do ProjectView, a parte inferior vai demorar para renderizar
-        let retryInterval: ReturnType<typeof setInterval>;
-        let attempts = 0;
-
-        const attachObservers = () => {
-            tryRecacheSections();
-            
-            // Re-anexa observadores aos alvos vivos (Observer ignora duplo observe silenciosamente)
-            sectionsRef.current.forEach(section => {
-                if (section) observer.observe(section);
-            });
-
-            const allFound = sectionsRef.current.every(s => s !== null);
-            
-            // Se achou tudo ou tentou 20 vezes (10segundos, talvez a pagina falhou)
-            if (allFound || attempts >= 20) {
-                clearInterval(retryInterval);
+        let ticking = false;
+        const handleScroll = () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(() => {
+                    calculateActiveSection();
+                    ticking = false;
+                });
             }
-            
-            attempts++;
         };
 
-        // Roda a primeira tentativa
-        attachObservers();
-        
-        // Se não achou todos de primeira, começa o ping pong
-        if (sectionsRef.current.some(s => s === null)) {
-            retryInterval = setInterval(attachObservers, 500);
-        }
+        // Roda a checagem no mount imediatamente apenas para garantir
+        calculateActiveSection();
 
-        return () => {
-            clearInterval(retryInterval);
-            observer.disconnect();
-        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
     }, [isLoaded]);
 
     // Lida apenas com recarregamentos pesados de estrutura (Resize de Tela)
@@ -159,9 +113,7 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
                 // Força um rescan destrutivo
                 sectionsRef.current = [];
                 tryRecacheSections();
-                if (window.innerWidth >= 1024) {
-                    calculateActiveSectionDesktop();
-                }
+                calculateActiveSection();
             }, 300);
         };
 
