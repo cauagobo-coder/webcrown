@@ -140,10 +140,15 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
             return;
         }
 
+        // Home.tsx NÃO monta o ReactLenis no Mobile.
+        // Se voltarmos do ProjectView (que monta Lenis no mobile), o useLenis pode retornar uma instância morta pendente.
+        // Para segurança absoluta: no mobile, SEMPRE ignoramos o lenis e usamos o scroll nativo.
+        const isLenisActive = window.innerWidth >= 1024 && lenis;
+
         // Fluxo normal estando na Home:
         // "Início" deve levar ao topo absoluto da página (a Hero fica dentro de um wrapper de 300vh)
         if (url === '#hero') {
-            if (lenis) {
+            if (isLenisActive) {
                 lenis.scrollTo(0, { duration: 1.2 });
             } else {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -153,7 +158,7 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
 
         const element = document.querySelector(url);
         if (element) {
-            if (lenis) {
+            if (isLenisActive) {
                 lenis.scrollTo(element, { duration: 1.2 });
             } else {
                 element.scrollIntoView({ behavior: 'smooth' });
