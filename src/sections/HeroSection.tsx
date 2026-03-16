@@ -169,8 +169,8 @@ const HeroSection = () => {
                         <video 
                             autoplay 
                             loop 
-                            muted 
-                            playsinline 
+                            muted="muted"
+                            playsinline="playsinline"
                             webkit-playsinline="true"
                             preload="auto"
                             class="w-full h-full object-cover"
