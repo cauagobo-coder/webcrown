@@ -163,14 +163,10 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
 
     return (
         <nav
-            className="fixed top-6 left-0 right-0 z-[99999] flex justify-center px-4 pointer-events-auto"
-            style={{ 
-                transform: 'translateZ(100px)',
-                WebkitTransform: 'translateZ(100px)', /* Força aceleração de hardware e novo contexto no Safari */
-                pointerEvents: 'auto'
-            }}
+            className="fixed top-6 left-0 right-0 z-[99999] flex justify-center px-4 pointer-events-none"
+            style={{ isolation: 'isolate' }}
         >
-            <div className="flex items-center gap-0.5 md:gap-1 p-1 md:p-1.5 rounded-full bg-black/20 backdrop-blur-md border border-white/10 shadow-lg" style={{ pointerEvents: 'auto' }}>
+            <div className="flex items-center gap-0.5 md:gap-1 p-1 md:p-1.5 rounded-full bg-black/20 backdrop-blur-md border border-white/10 shadow-lg pointer-events-auto">
                 {navItems.map((item) => {
                     const Icon = item.icon;
                     const isActive = activeTab === item.name;
