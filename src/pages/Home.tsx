@@ -178,7 +178,7 @@ const Home = () => {
                         <CustomScrollbar />
                     </div>
                 )}
-                <GlassNavbar isLoaded={isLoaded} />
+                <GlassNavbar key={location.pathname} isLoaded={isLoaded} />
                 <HeroTransitionWrapper />
                 <div id="main-content" className="relative bg-black min-h-screen text-white font-sans">
                     <AboutSection />
