@@ -30,6 +30,7 @@ const HeroSection = () => {
     const play = useCallback(() => {
         const v = videoRef.current;
         if (!v) return;
+        v.defaultMuted = true;
         v.muted = true;
         v.play().catch(() => {/* silencioso */ });
     }, []);
