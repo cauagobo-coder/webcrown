@@ -73,7 +73,7 @@ const Folder = ({ folder, index }: { folder: FolderProject; index: number }) => 
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-8 md:mb-12 w-48 sm:w-64 md:w-72 aspect-[4/5] rounded-xl overflow-hidden border border-brand-gold/30 shadow-[0_10px_40px_-10px_rgba(245,138,7,0.4)] z-[100] bg-[#080808] pointer-events-none"
+                        className="hidden md:block absolute bottom-full left-1/2 -translate-x-1/2 mb-8 md:mb-12 w-48 sm:w-64 md:w-72 aspect-[4/5] rounded-xl overflow-hidden border border-brand-gold/30 shadow-[0_10px_40px_-10px_rgba(245,138,7,0.4)] z-[100] bg-[#080808] pointer-events-none"
                     >
                         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent z-10" />
                         <span className="absolute bottom-3 left-4 z-20 text-[11px] font-bold tracking-widest uppercase text-white drop-shadow-md">
