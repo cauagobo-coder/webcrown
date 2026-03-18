@@ -14,7 +14,7 @@ const Preloader: React.FC = () => {
         });
 
         // Lógica do contador numérico atrelada ao timestamp
-        const loadingDuration = 2800; // MS estipulados no CodePen
+        const loadingDuration = 900; // MS (era 2800, reduzido por performance)
         let startTimestamp: number | null = null;
         let animationFrameId: number;
 

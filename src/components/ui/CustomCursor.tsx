@@ -32,18 +32,24 @@ const CustomCursor: React.FC = () => {
         const handleMouseEnter = () => setIsVisible(true);
 
         const handleInteractionStart = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-            if (
-                target.tagName.toLowerCase() === 'a' ||
-                target.tagName.toLowerCase() === 'button' ||
-                target.closest('a') !== null ||
-                target.closest('button') !== null ||
-                window.getComputedStyle(target).cursor === 'pointer'
-            ) {
-                setIsHovering(true);
-            } else {
-                setIsHovering(false);
+            let target = e.target as HTMLElement | null;
+
+            // Recurse up the DOM to find any clickable element
+            let isClickable = false;
+            while (target && target !== document.body) {
+                if (
+                    ['a', 'button', 'input', 'select', 'textarea'].includes(target.tagName.toLowerCase()) ||
+                    target.classList.contains('cursor-pointer') ||
+                    target.hasAttribute('onclick') ||
+                    window.getComputedStyle(target).cursor === 'pointer'
+                ) {
+                    isClickable = true;
+                    break;
+                }
+                target = target.parentElement;
             }
+
+            setIsHovering(isClickable);
         };
 
         window.addEventListener('mousemove', handleMouseMove, { passive: true });

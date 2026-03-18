@@ -176,7 +176,7 @@ const GlassNavbar: React.FC<{ isLoaded: boolean }> = ({ isLoaded }) => {
 
     return (
         <nav
-            className="fixed top-6 left-0 right-0 z-[99999] flex justify-center px-4 pointer-events-none"
+            className={`fixed top-6 left-0 right-0 z-[99999] flex justify-center px-4 pointer-events-none transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
             style={{ isolation: 'isolate' }}
         >
             <div className="flex items-center gap-0.5 md:gap-1 p-1 md:p-1.5 rounded-full bg-black/20 backdrop-blur-md border border-white/10 shadow-lg pointer-events-auto">

@@ -34,7 +34,8 @@ const ProjectView = () => {
     }, [selectedImage]);
 
     // Validation to ensure we only load standard projects
-    const validProjects = ['barbearia', 'dentista', 'personal'];
+    const validProjects = ['barbearia', 'dentista', 'personal', 'lumine', 'fitnez', 'royal'];
+    const isLandingPage = ['lumine', 'fitnez', 'royal'].includes(id || '');
     if (!id || !validProjects.includes(id)) {
         return (
             <div className="min-h-screen bg-[#050505] flex items-center justify-center flex-col gap-4 text-white p-4 text-center">
@@ -50,8 +51,16 @@ const ProjectView = () => {
     }
 
     // Number of images per project
-    const imageCount = 6;
-    const images = Array.from({ length: imageCount }).map((_, i) => `/portfolio/${id}/${i + 1}.png`);
+    let images: string[] = [];
+    if (isLandingPage) {
+        // Find the specific image depending on the requested project
+        if (id === 'lumine') images = ['/portfolio/paginas/lumine.webp'];
+        if (id === 'fitnez') images = ['/portfolio/paginas/fitnez.webp'];
+        if (id === 'royal') images = ['/portfolio/paginas/royal.webp'];
+    } else {
+        const imageCount = 6;
+        images = Array.from({ length: imageCount }).map((_, i) => `/portfolio/${id}/${i + 1}.png`);
+    }
 
     return (
         <ReactLenis root key={id}>
@@ -74,29 +83,42 @@ const ProjectView = () => {
                             Portfolio
                         </span>
                         <h2 className="text-4xl md:text-5xl font-display font-black text-white capitalize">
-                            Mídias - {id === 'personal' ? 'Personal Trainer' : id}
+                            {isLandingPage ? `Landing Page - ${id === 'fitnez' ? 'Fitnez Gym' : id === 'lumine' ? 'Lúmine Dental' : 'Royal Pet'}` : `Mídias - ${id === 'personal' ? 'Personal Trainer' : id}`}
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-1 sm:gap-2 md:gap-4 lg:gap-6">
-                        {images.map((src, index) => (
-                            <div 
-                                key={index} 
-                                className="relative aspect-[4/5] overflow-hidden rounded-sm sm:rounded-md md:rounded-xl group border border-white/5 bg-[#0a0a0a] shadow-lg cursor-pointer"
-                                onClick={() => setSelectedImage(src)}
-                            >
-                                <img
-                                    src={src}
-                                    alt={`Projeto ${id} - Apresentação ${index + 1}`}
-                                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                                    loading={index < 6 ? "eager" : "lazy"}
-                                />
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 pointer-events-none flex items-center justify-center">
-                                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-white font-body text-xs md:text-sm tracking-widest uppercase drop-shadow-lg">Ver Maior</span>
+                    {isLandingPage ? (
+                        <div className="w-full relative shadow-2xl rounded-sm sm:rounded-md md:rounded-xl overflow-hidden border border-white/5 bg-[#0a0a0a]">
+                            <img
+                                src={images[0]}
+                                alt={`Projeto ${id}`}
+                                className="w-full h-auto object-cover"
+                                loading="eager"
+                                decoding="async"
+                            />
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-3 gap-1 sm:gap-2 md:gap-4 lg:gap-6">
+                            {images.map((src, index) => (
+                                <div 
+                                    key={index} 
+                                    className="relative aspect-[4/5] overflow-hidden rounded-sm sm:rounded-md md:rounded-xl group border border-white/5 bg-[#0a0a0a] shadow-lg cursor-pointer"
+                                    onClick={() => setSelectedImage(src)}
+                                >
+                                    <img
+                                        src={src}
+                                        alt={`Projeto ${id} - Apresentação ${index + 1}`}
+                                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                                        loading={index < 2 ? "eager" : "lazy"}
+                                        decoding="async"
+                                    />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 pointer-events-none flex items-center justify-center">
+                                        <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-white font-body text-xs md:text-sm tracking-widest uppercase drop-shadow-lg">Ver Maior</span>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    )}
                 </main>
 
                 {/* Next Project Component inside Footer Area */}

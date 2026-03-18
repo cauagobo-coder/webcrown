@@ -4,16 +4,20 @@ import Container from './Container';
 
 // All available projects
 const projectsData = [
-    { id: 'barbearia', title: 'Barbearia', thumb: '/portfolio/barbearia/1.png' },
-    { id: 'dentista', title: 'Clínica Odontológica', thumb: '/portfolio/dentista/1.png' },
-    { id: 'personal', title: 'Personal Trainer', thumb: '/portfolio/personal/1.png' }
+    { id: 'lumine', title: 'Lúmine Dental', type: 'Web Design', thumb: '/portfolio/paginas/lumine.webp' },
+    { id: 'fitnez', title: 'Fitnez Gym', type: 'Web Design', thumb: '/portfolio/paginas/fitnez.webp' },
+    { id: 'royal', title: 'Royal Pet', type: 'Web Design', thumb: '/portfolio/paginas/royal.webp' },
+    { id: 'barbearia', title: 'Barbearia', type: 'Social Media', thumb: '/portfolio/barbearia/1.png' },
+    { id: 'dentista', title: 'Clínica Odontológica', type: 'Social Media', thumb: '/portfolio/dentista/1.png' },
+    { id: 'personal', title: 'Personal Trainer', type: 'Social Media', thumb: '/portfolio/personal/1.png' }
 ];
 
 const PortfolioNextTarget = ({ currentId }: { currentId: string }) => {
     const navigate = useNavigate();
 
-    // Filter out the current project to show the remaining as "Next"
-    const nextProjects = projectsData.filter(p => p.id !== currentId);
+    const currentProject = projectsData.find(p => p.id === currentId);
+    const currentType = currentProject ? currentProject.type : 'Social Media';
+    const nextProjects = projectsData.filter(p => p.id !== currentId && p.type === currentType);
 
     return (
         <section className="pt-24 pb-12 bg-[#050505]">
@@ -36,13 +40,15 @@ const PortfolioNextTarget = ({ currentId }: { currentId: string }) => {
                             <img
                                 src={project.thumb}
                                 alt={project.title}
+                                loading="lazy"
+                                decoding="async"
                                 className="absolute w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
                             />
 
                             <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 z-20 flex justify-between items-end bg-gradient-to-t from-black/80 via-black/40 to-transparent">
                                 <div>
                                     <span className="text-brand-gold font-body text-xs md:text-sm tracking-wider uppercase block mb-1">
-                                        Social Media
+                                        {project.type}
                                     </span>
                                     <h3 className="text-white font-display text-2xl md:text-3xl font-semibold">
                                         {project.title}

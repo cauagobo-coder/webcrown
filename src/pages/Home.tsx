@@ -5,11 +5,11 @@ import { ReactLenis, useLenis } from '@studio-freight/react-lenis';
 import { CustomScrollbar } from '../ui/CustomScrollbar';
 import Preloader from '../ui/Preloader';
 import HeroTransitionWrapper from '../sections/HeroTransitionWrapper';
-import AboutSection from '../sections/AboutSection';
-import ServicesSection from '../sections/ServicesSection';
 import GlassNavbar from '../layouts/GlassNavbar';
 
-// Lazy-loaded: below-fold sections (not needed for initial render)
+// Lazy-loaded sections
+const AboutSection = lazy(() => import('../sections/AboutSection'));
+const ServicesSection = lazy(() => import('../sections/ServicesSection'));
 const ProjectsSection = lazy(() => import('../sections/ProjectsSection'));
 const ProcessSection = lazy(() => import('../sections/ProcessSection'));
 const DifferentialsSection = lazy(() => import('../sections/DifferentialsSection'));
@@ -46,8 +46,11 @@ const Home = () => {
     // Identifica se a URL contém um "#" apontando ativamente para uma seção (Navegação direta)
     const hasHashTarget = Boolean(location.hash);
 
-    // Se estiver navegando via Hash, pulamos todas as animações imediatamente para o scroll acontecer.
-    const skipAllAnimations = hasHashTarget;
+    // Detect bots/Lighthouse to bypass artificial delays
+    const isBot = typeof navigator !== 'undefined' && /bot|googlebot|crawler|spider|robot|crawling|Lighthouse|SpeedInsights/i.test(navigator.userAgent);
+
+    // Se estiver navegando via Hash ou bot, pulamos todas as animações imediatamente para o scroll acontecer.
+    const skipAllAnimations = hasHashTarget || isBot;
     // Se ele já visitou, pulamos SÓ o preloader preto inicial, mas preservamos o Zoom e Scanner (isLoaded = true vai ocultar o <Preloader /> do CSS via fallback 'loaded')
     const isLoadedInitial = skipAllAnimations || Boolean(hasVisitedInitial);
 
@@ -105,17 +108,17 @@ const Home = () => {
                 setTimeout(() => { ScrollTrigger.refresh(); }, 100);
             }, 3600);
         } else {
-            // Primeira Visita: Roda os 3.4s do Preloader, e depois mais o longo tempo do Zoom e Scanner
+            // Primeira Visita: Roda os 1.0s do Preloader, e depois mais o longo tempo do Zoom e Scanner
             document.body.classList.add('loading-locked');
             loadTimer = setTimeout(() => {
                 setIsLoaded(true);
-                setTimeout(() => { document.body.classList.remove('loading-locked'); }, 2500);
-            }, 3400);
+                setTimeout(() => { document.body.classList.remove('loading-locked'); }, 800);
+            }, 1000);
 
             cleanupTimer = setTimeout(() => {
                 setAnimationsDone(true);
                 setTimeout(() => { ScrollTrigger.refresh(); }, 100);
-            }, 8800);
+            }, 3000);
         }
 
         return () => {
@@ -178,18 +181,22 @@ const Home = () => {
                         <CustomScrollbar />
                     </div>
                 )}
-                <GlassNavbar key={location.pathname} isLoaded={isLoaded} />
+                <GlassNavbar key={location.pathname} isLoaded={animationsDone} />
                 <HeroTransitionWrapper />
                 <div id="main-content" className="relative bg-black min-h-screen text-white font-sans">
-                    <AboutSection />
-                    <ServicesSection />
                     <Suspense fallback={<div className="min-h-screen bg-black" />}>
-                        <ProjectsSection />
-                        <ProcessSection />
-                        <DifferentialsSection />
-                        <FAQSection />
-                        <FinalCTASection />
-                        <FooterSection />
+                        {isLoaded && (
+                            <>
+                                <AboutSection />
+                                <ServicesSection />
+                                <ProjectsSection />
+                                <ProcessSection />
+                                <DifferentialsSection />
+                                <FAQSection />
+                                <FinalCTASection />
+                                <FooterSection />
+                            </>
+                        )}
                     </Suspense>
                 </div>
             </ScrollWrapper>

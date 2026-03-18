@@ -21,9 +21,9 @@ const folders: FolderProject[] = [
     {
         label: 'Landing Pages',
         items: [
-            { name: 'SaaS Page', logoImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=200&h=200&fit=crop', previewImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=400&fit=crop', link: '#' },
-            { name: 'E-commerce', logoImage: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=200&h=200&fit=crop', previewImage: 'https://images.unsplash.com/photo-1616469829581-73993eb86b02?w=400&h=400&fit=crop', link: '#' },
-            { name: 'Institucional', logoImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop', previewImage: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=400&h=400&fit=crop', link: '#' },
+            { name: 'Lúmine Dental', logoImage: '/portfolio/paginas/lumine-thumb.webp', previewImage: '/portfolio/paginas/lumine-thumb.webp', link: '/portfolio/lumine' },
+            { name: 'Fitnez (Academia)', logoImage: '/portfolio/paginas/fitnez-thumb.webp', previewImage: '/portfolio/paginas/fitnez-thumb.webp', link: '/portfolio/fitnez' },
+            { name: 'Royal Pet', logoImage: '/portfolio/paginas/royal-thumb.webp', previewImage: '/portfolio/paginas/royal-thumb.webp', link: '/portfolio/royal' },
         ],
     },
     {
@@ -79,7 +79,7 @@ const Folder = ({ folder, index }: { folder: FolderProject; index: number }) => 
                         <span className="absolute bottom-3 left-4 z-20 text-[11px] font-bold tracking-widest uppercase text-white drop-shadow-md">
                             Projeto: {hoveredItem.name}
                         </span>
-                        <img src={hoveredItem.image} alt={hoveredItem.name} className="w-full h-full object-cover" />
+                        <img src={hoveredItem.image} alt={hoveredItem.name} loading="lazy" decoding="async" className={`w-full h-full ${folder.label === 'Landing Pages' ? 'object-cover object-top' : 'object-cover'}`} />
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -101,7 +101,7 @@ const Folder = ({ folder, index }: { folder: FolderProject; index: number }) => 
                 {folder.items.map((item, i) => (
                     <div
                         key={i}
-                        className="nav-item group"
+                        className="nav-item group cursor-pointer"
                         onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -120,7 +120,9 @@ const Folder = ({ folder, index }: { folder: FolderProject; index: number }) => 
                         <img
                             src={item.logoImage}
                             alt={`${item.name} Logo`}
-                            className="w-full h-full object-cover rounded-sm border border-white/5"
+                            loading="lazy"
+                            decoding="async"
+                            className={`w-full h-full rounded-sm border border-white/5 ${folder.label === 'Landing Pages' ? 'object-cover object-top' : 'object-cover'}`}
                         />
                         {item.link && item.link !== '#' && (
                             <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-bold text-brand-gold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-black/60 px-2 py-1 rounded-md z-30 pointer-events-none">

@@ -136,13 +136,12 @@ const HeroSection = () => {
                 const appContainer = document.querySelector('.app-container');
                 if (appContainer && appContainer.classList.contains('loaded')) {
                     clearInterval(checkLoaded);
-                    // A cortina preta cai em 2.5s (cubic-bezier). 
-                    // No ms 2000 ela já revelou o topo, então a linha cresce (0.5s).
-                    // No ms 2500 a cortina some e a linha começa a descer (2s),
-                    // separando a queda do preloader do efeito visual de scan, para que o usuário possa apreciar.
+                    // A cortina preta cai em 800ms.
+                    // Acionamos a linha de scan com 100ms de delay apenas, para que o texto e o LCP 
+                    // comecem a pintar enquanto a cortina Some (evitando TBT longo).
                     setTimeout(() => {
                         tl.play();
-                    }, 2000);
+                    }, 100);
                 }
             }, 50);
 
