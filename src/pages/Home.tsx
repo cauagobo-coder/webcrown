@@ -118,7 +118,7 @@ const Home = () => {
             cleanupTimer = setTimeout(() => {
                 setAnimationsDone(true);
                 setTimeout(() => { ScrollTrigger.refresh(); }, 100);
-            }, 3000);
+            }, 4600); // 1000ms (preloader) + 3500ms (zoom + delay) + 100ms buffer
         }
 
         return () => {
