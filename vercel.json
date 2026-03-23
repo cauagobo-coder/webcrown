@@ -4,10 +4,7 @@
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" },
-        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin-allow-popups" },
-        { "key": "Content-Security-Policy", "value": "upgrade-insecure-requests; frame-ancestors 'self' https://tagassistant.google.com/;" }
+        { "key": "X-XSS-Protection", "value": "1; mode=block" }
       ]
     }
   ]
