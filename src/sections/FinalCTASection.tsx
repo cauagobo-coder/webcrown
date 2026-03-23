@@ -31,6 +31,7 @@ const FinalCTASection: React.FC = () => {
                     <GoldButton
                         onClick={handleContactClick}
                         className="mx-auto"
+                        data-tracking="cta-final-whatsapp"
                     >
                         Solicitar Orçamento Gratuito
                     </GoldButton>

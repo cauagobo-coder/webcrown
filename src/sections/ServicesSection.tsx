@@ -124,6 +124,7 @@ const ServiceCardMobile = ({
                                 <CyberButton
                                     onClick={handleWhatsAppClick}
                                     className="w-full group/btn flex items-center justify-center gap-2 mt-auto"
+                                    data-tracking="cta-services-whatsapp"
                                 >
                                     Quero Esse
                                     <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -215,6 +216,7 @@ const ServiceCardDesktop = ({
                                 <CyberButton
                                     onClick={handleWhatsAppClick}
                                     className="w-full group/btn flex items-center justify-center gap-2"
+                                    data-tracking="cta-services-whatsapp"
                                 >
                                     Quero Esse
                                     <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />

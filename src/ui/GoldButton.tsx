@@ -19,6 +19,7 @@ export const GoldButton: React.FC<ButtonProps> = ({ children, className = '', wh
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`btn-gold inline-flex items-center justify-center text-center ${className}`}
+                {...(props as any)}
             >
                 <span className="relative z-10">{children}</span>
             </a>

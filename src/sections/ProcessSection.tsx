@@ -281,7 +281,7 @@ const ProcessSectionMobile = () => {
                         </div>
                     </div>
                     <h3 className="text-3xl font-black text-white tracking-tighter leading-none mb-6">Vamos<br />Começar?</h3>
-                    <GoldButton whatsappMessage="Olá! Vi sua Metodologia e quero iniciar um projeto.">
+                    <GoldButton whatsappMessage="Olá! Vi sua Metodologia e quero iniciar um projeto." data-tracking="cta-process-whatsapp">
                         Solicitar Projeto
                     </GoldButton>
                 </motion.div>
@@ -452,7 +452,7 @@ const ProcessSectionDesktop: React.FC = () => {
                                 </div>
                             </div>
                             <h3 className="text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tighter leading-none mb-6 md:mb-8">Vamos<br />Começar?</h3>
-                            <GoldButton whatsappMessage="Olá! Vi sua Metodologia e quero iniciar um projeto.">
+                            <GoldButton whatsappMessage="Olá! Vi sua Metodologia e quero iniciar um projeto." data-tracking="cta-process-whatsapp">
                                 Solicitar Projeto
                             </GoldButton>
                         </div>

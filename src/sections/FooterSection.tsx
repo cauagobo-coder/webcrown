@@ -29,6 +29,7 @@ const FooterSection = () => {
                                 rel="noopener noreferrer"
                                 className="p-3 rounded-full bg-white/5 border border-white/10 text-zinc-400 hover:text-brand-gold hover:border-brand-gold/50 hover:bg-brand-gold/10 transition-all duration-300"
                                 aria-label="WhatsApp"
+                                data-tracking="cta-footer-whatsapp"
                             >
                                 <MessageCircle className="w-5 h-5" />
                             </a>

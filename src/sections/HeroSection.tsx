@@ -222,10 +222,10 @@ const HeroSection = () => {
                                 {/* Buttons */}
                                 <div className="w-full max-w-[280px] sm:max-w-none flex justify-center mt-2 md:mt-10 px-4">
                                     <div className="flex flex-col sm:flex-row items-center justify-center w-full gap-3 md:gap-5">
-                                        <GoldButton className="w-full sm:w-auto text-[13px] md:text-base py-2.5 md:py-3" whatsappMessage="Olá! Vim pelo site da WebCrown e gostaria de solicitar um orçamento.">
+                                        <GoldButton className="w-full sm:w-auto text-[13px] md:text-base py-2.5 md:py-3" whatsappMessage="Olá! Vim pelo site da WebCrown e gostaria de solicitar um orçamento." data-tracking="cta-hero-whatsapp">
                                             Solicitar Orçamento
                                         </GoldButton>
-                                        <CyberButton className="w-full sm:w-auto text-[13px] md:text-base py-2.5 md:py-3" onClick={() => {
+                                        <CyberButton className="w-full sm:w-auto text-[13px] md:text-base py-2.5 md:py-3" data-tracking="cta-hero-portfolio" onClick={() => {
                                             const target = document.getElementById('projetos');
                                             if (lenis && target) {
                                                 lenis.scrollTo(target, { duration: 1.2 });
