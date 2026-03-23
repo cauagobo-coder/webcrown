@@ -21,7 +21,7 @@ export const GoldButton: React.FC<ButtonProps> = ({ children, className = '', wh
                 className={`btn-gold inline-flex items-center justify-center text-center ${className}`}
                 {...(props as any)}
             >
-                <span className="relative z-10">{children}</span>
+                <span className="relative z-10 pointer-events-none">{children}</span>
             </a>
         )
     }
@@ -32,7 +32,7 @@ export const GoldButton: React.FC<ButtonProps> = ({ children, className = '', wh
             onClick={onClick}
             {...props}
         >
-            <span className="relative z-10">{children}</span>
+            <span className="relative z-10 pointer-events-none">{children}</span>
         </button>
     );
 };
@@ -44,7 +44,7 @@ export const SecondaryButton: React.FC<ButtonProps> = ({ children, className = '
             onClick={onClick}
             {...props}
         >
-            <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
+            <span className="relative z-10 inline-flex items-center gap-2 pointer-events-none">{children}</span>
         </button>
     );
 };
