@@ -24,7 +24,7 @@ const FooterSection = () => {
                     <div className="col-span-12 md:col-span-4 flex justify-center text-center">
                         <div className="flex items-center gap-4">
                             <a
-                                href="#"
+                                href="https://wa.me/5527998508578"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="p-3 rounded-full bg-white/5 border border-white/10 text-zinc-400 hover:text-brand-gold hover:border-brand-gold/50 hover:bg-brand-gold/10 transition-all duration-300"

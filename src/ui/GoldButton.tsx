@@ -9,7 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const GoldButton: React.FC<ButtonProps> = ({ children, className = '', whatsappMessage, onClick, ...props }) => {
     const isWhatsApp = !!whatsappMessage;
     const link = whatsappMessage
-        ? `https://wa.me/5511999999999?text=${encodeURIComponent(whatsappMessage)}`
+        ? `https://wa.me/5527998508578?text=${encodeURIComponent(whatsappMessage)}`
         : undefined;
 
     if (isWhatsApp) {
