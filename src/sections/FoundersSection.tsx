@@ -242,9 +242,8 @@ const FoundersSection = () => {
             >
                 <h2
                     ref={textContainerRef}
-                    className="absolute text-[7.5vw] sm:text-[8vw] md:text-[6.5vw] xl:text-[6vw] font-black text-white whitespace-nowrap tracking-tighter leading-none"
+                    className="absolute text-[7.5vw] sm:text-[8vw] md:text-[6.5vw] xl:text-[6vw] font-black font-display text-white whitespace-nowrap tracking-tighter leading-none"
                     style={{
-                        fontFamily: '"Syne", sans-serif',
                         willChange: 'transform',
                         transform: 'translateZ(0)'
                     }}
