@@ -1,4 +1,3 @@
-
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -7,6 +6,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
+    // Drop console logs for cleaner production code
+    minify: 'esbuild',
     // Split heavy vendor libs into separate chunks for better caching
     // and to avoid downloading unused code (e.g. three.js on mobile)
     rollupOptions: {
@@ -18,5 +19,8 @@ export default defineConfig({
         },
       },
     },
+  },
+  esbuild: {
+    drop: ['console', 'debugger'],
   },
 })

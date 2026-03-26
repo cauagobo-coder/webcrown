@@ -13,6 +13,7 @@ const ServicesSection = lazy(() => import('../sections/ServicesSection'));
 const ProjectsSection = lazy(() => import('../sections/ProjectsSection'));
 const ProcessSection = lazy(() => import('../sections/ProcessSection'));
 const DifferentialsSection = lazy(() => import('../sections/DifferentialsSection'));
+const FoundersSection = lazy(() => import('../sections/FoundersSection'));
 const FAQSection = lazy(() => import('../sections/FAQSection'));
 const FooterSection = lazy(() => import('../sections/FooterSection'));
 const FinalCTASection = lazy(() => import('../sections/FinalCTASection'));
@@ -94,10 +95,13 @@ const Home = () => {
             return;
         }
 
+        // Se for mobile, somos ultra agressivos cortando o tempo da animação inicial
+        // para disparar o LCP e desocupar a Main Thread o mais rápido possível (boas práticas Lighthouse).
+        const delayPreload = isMobile ? 300 : 1000;
+        const delayZoom = isMobile ? 800 : 3600;
+
         if (isLoadedInitial) {
-            // Ele já visitou o site. O <Preloader> (tela 0 a 100%) nem foi renderizado.
-            // Aqui damos um pequeno delay de 50ms para que a tag `.loaded` seja inserida apenas *depois* do monte inicial.
-            // Isso FORÇA o CSS a rodar a Transição de scale(1.1) para 1 e opacity 0 para 1, dando a animação de Zoom que o cliente ama.
+            // Ele já visitou o site. O <Preloader> nem foi renderizado.
             document.body.classList.remove('loading-locked');
             loadTimer = setTimeout(() => {
                 setIsLoaded(true);
@@ -106,19 +110,19 @@ const Home = () => {
             cleanupTimer = setTimeout(() => {
                 setAnimationsDone(true);
                 setTimeout(() => { ScrollTrigger.refresh(); }, 100);
-            }, 3600);
+            }, delayZoom);
         } else {
             // Primeira Visita: Roda os 1.0s do Preloader, e depois mais o longo tempo do Zoom e Scanner
             document.body.classList.add('loading-locked');
             loadTimer = setTimeout(() => {
                 setIsLoaded(true);
-                setTimeout(() => { document.body.classList.remove('loading-locked'); }, 800);
-            }, 1000);
+                setTimeout(() => { document.body.classList.remove('loading-locked'); }, isMobile ? 400 : 800);
+            }, delayPreload);
 
             cleanupTimer = setTimeout(() => {
                 setAnimationsDone(true);
                 setTimeout(() => { ScrollTrigger.refresh(); }, 100);
-            }, 4600); // 1000ms (preloader) + 3500ms (zoom + delay) + 100ms buffer
+            }, delayPreload + delayZoom + 100);
         }
 
         return () => {
@@ -126,7 +130,7 @@ const Home = () => {
             clearTimeout(cleanupTimer);
             document.body.classList.remove('loading-locked');
         };
-    }, [skipAllAnimations, isLoadedInitial]);
+    }, [skipAllAnimations, isLoadedInitial, isMobile]);
 
     // Check for hash and scroll to it ONLY after all GSAP layouts and pins are fully refreshed
     useEffect(() => {
@@ -192,6 +196,7 @@ const Home = () => {
                                 <ProjectsSection />
                                 <ProcessSection />
                                 <DifferentialsSection />
+                                <FoundersSection />
                                 <FAQSection />
                                 <FinalCTASection />
                                 <FooterSection />

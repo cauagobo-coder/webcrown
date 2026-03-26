@@ -200,44 +200,26 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ step, scrollYProgress, th
 };
 
 // ========================================
-// MOBILE CARD — lightweight, no springs
+// MOBILE CARD — Clean, Minimal Timeline Style
 // ========================================
 const MobileProcessCard = ({ step, index }: { step: StepProps; index: number }) => {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -15 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-30px' }}
-            transition={{ duration: 0.4, delay: index * 0.05 }}
-            className="w-full"
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="w-full py-2"
         >
-            <div className="relative rounded-2xl bg-neutral-900/60 border border-white/5 p-6 overflow-hidden">
-                <span className="absolute -bottom-4 -right-2 text-[100px] font-black text-white/[0.02] select-none pointer-events-none leading-none">
-                    0{step.id}
-                </span>
-
-                <div className="relative z-10">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="px-3 py-1 bg-brand-gold/10 border border-brand-gold/20 rounded-full">
-                            <span className="text-brand-gold text-[10px] font-black uppercase tracking-widest">{step.year}</span>
-                        </div>
-                        <step.icon className="w-6 h-6 text-brand-gold/40" />
-                    </div>
-
-                    <h3 className="text-xl font-black text-white mb-2 tracking-tight">{step.title}</h3>
-                    <p className="text-neutral-400 text-sm leading-relaxed">{step.description}</p>
-
-                    <div className="mt-4 h-0.5 w-full bg-neutral-800 rounded-full overflow-hidden">
-                        <motion.div
-                            initial={{ width: '0%' }}
-                            whileInView={{ width: '100%' }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
-                            className="h-full bg-brand-gold shadow-[0_0_10px_rgba(245,138,7,0.8)]"
-                        />
-                    </div>
+            <div className="flex items-center gap-3 mb-2">
+                <div className="px-2 py-0.5 bg-brand-gold/10 rounded-full">
+                    <span className="text-brand-gold text-[9px] font-black uppercase tracking-widest">{step.year}</span>
                 </div>
+                <step.icon className="w-4 h-4 text-brand-gold/70" />
             </div>
+
+            <h3 className="text-lg font-black text-white mb-1.5 tracking-tight leading-tight">{step.title}</h3>
+            <p className="text-neutral-400 text-[13px] leading-relaxed max-w-[90%]">{step.description}</p>
         </motion.div>
     );
 };

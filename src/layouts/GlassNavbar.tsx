@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Home, User, Briefcase, FolderOpen, Cog, HelpCircle, LucideIcon } from 'lucide-react';
+import { Home, User, Users, Briefcase, FolderOpen, Cog, HelpCircle, LucideIcon } from 'lucide-react';
 import { useLenis } from '@studio-freight/react-lenis';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -16,7 +16,8 @@ const navItems: NavItem[] = [
     { name: 'Sobre', url: '#sobre', icon: User },
     { name: 'Serviços', url: '#servicos', icon: Briefcase },
     { name: 'Projetos', url: '#projetos', icon: FolderOpen },
-    { name: 'Processo', url: '#processo', icon: Cog },
+    { name: 'O Processo', url: '#processo', icon: Cog },
+    { name: 'Fundadores', url: '#founders', icon: Users },
     { name: 'FAQ', url: '#faq', icon: HelpCircle },
 ];
 
