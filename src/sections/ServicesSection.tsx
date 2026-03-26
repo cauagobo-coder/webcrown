@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, lazy, Suspense } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { Share2, Zap, Palette, TrendingUp, ArrowRight } from 'lucide-react';
 import { CyberButton } from '../ui/GoldButton';
 import Container from '../ui/Container';
@@ -239,6 +239,12 @@ const ServicesSection = () => {
     const [isDesktop, setIsDesktop] = useState(false);
     const [shouldLoad3D, setShouldLoad3D] = useState(false);
 
+    const isInView = useInView(containerRef, { once: true, margin: "1500px" });
+
+    useEffect(() => {
+        if (isInView) setShouldLoad3D(true);
+    }, [isInView]);
+
     useEffect(() => {
         const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
         checkDesktop(); // exec initial
@@ -248,12 +254,6 @@ const ServicesSection = () => {
 
     return (
         <div ref={containerRef} id="servicos" className="relative w-full bg-[#050505]">
-            {/* Invisível, serve apenas para iniciar o carregamento do 3D 1500px antes de chegar na seção */}
-            <motion.div 
-                className="absolute top-0 left-0 w-full h-[1px] pointer-events-none" 
-                onViewportEnter={() => setShouldLoad3D(true)} 
-                viewport={{ once: true, margin: '1500px' }} 
-            />
             <section className="min-h-[40vh] flex flex-col justify-center pt-32 pb-0 relative z-10">
                 <Container>
                     <motion.div

@@ -1,4 +1,4 @@
-import { MessageCircle, Instagram, Linkedin, ArrowUp } from 'lucide-react';
+import { MessageCircle, Instagram, ArrowUp } from 'lucide-react';
 
 import Container from '../ui/Container';
 
@@ -34,22 +34,13 @@ const FooterSection = () => {
                                 <MessageCircle className="w-5 h-5" />
                             </a>
                             <a
-                                href="#"
+                                href="https://www.instagram.com/web.crown/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="p-3 rounded-full bg-white/5 border border-white/10 text-zinc-400 hover:text-pink-500 hover:border-pink-500/50 hover:bg-pink-500/10 transition-all duration-300"
                                 aria-label="Instagram"
                             >
                                 <Instagram className="w-5 h-5" />
-                            </a>
-                            <a
-                                href="#"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="p-3 rounded-full bg-white/5 border border-white/10 text-zinc-400 hover:text-blue-500 hover:border-blue-500/50 hover:bg-blue-500/10 transition-all duration-300"
-                                aria-label="LinkedIn"
-                            >
-                                <Linkedin className="w-5 h-5" />
                             </a>
                         </div>
                     </div>
