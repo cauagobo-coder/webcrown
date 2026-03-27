@@ -48,7 +48,7 @@ const FoundersSection = () => {
                 scrollTrigger: {
                     trigger: section,
                     start: "top top",
-                    end: "+=600%",
+                    end: "+=300%",
                     scrub: 1,
                     pin: true,
                     anticipatePin: 1
